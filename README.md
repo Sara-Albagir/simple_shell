@@ -1,1 +1,2 @@
-This is Partner 2(https://github.com/Andy1100-1100)
+This is the first sprint project at Alx.
+Done by Sarah Albagir and Andy Ansah.
