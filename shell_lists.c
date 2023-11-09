@@ -1,8 +1,8 @@
 #include "main.h"
 
 /**
- * _add_sectin - a function that adds a _add_section_end.
- * @lead: points to the leading _add_section_end.
+ * _add_sectin - a function that adds a node.
+ * @lead: points to the leading node.
  * @strg: string in question.
  * @ind_num: the indx of the _add_section_end.
  * Return: an int.
@@ -39,7 +39,7 @@ list_t *_add_sectin(list_t **lead, const char *strg, int ind_num)
  * @ind_num: the indx of the _add_section_end.
  * Return: an int.
  */
-list_t *add_node_end(list_t **lead, const char *strg, int ind_num)
+list_t *_add_section_end(list_t **lead, const char *strg, int ind_num)
 {
 	list_t *new_section, *section;
 
