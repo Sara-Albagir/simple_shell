@@ -38,6 +38,6 @@ int main(int arc, char **arv)
 	}
 	populate_env_list(ads);
 	read_history(ads);
-	hsh(ads, arv);
+	_shellloop(ads, arv);
 	return (EXIT_SUCCESS);
 }

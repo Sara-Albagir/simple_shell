@@ -20,7 +20,7 @@ list_t *_add_sectin(list_t **lead, const char *strg, int ind_num)
 	new_lead->ind_num = ind_num;
 	if (strg)
 	{
-		new_lead->strg = _strdup(strg);
+		new_lead->strg = dup_strg(strg);
 		if (!new_lead->strg)
 		{
 			free(new_lead);
@@ -54,7 +54,7 @@ list_t *_add_section_end(list_t **lead, const char *strg, int ind_num)
 	new_section->ind_num = ind_num;
 	if (strg)
 	{
-		new_section->strg = _strdup(strg);
+		new_section->strg = dup_strg(strg);
 		if (!new_section->strg)
 		{
 			free(new_section);
@@ -83,8 +83,8 @@ size_t strg_listprint(const list_t *frst)
 
 	while (frst)
 	{
-		_puts(frst->strg ? frst->strg : "(nil)");
-		_puts("\n");
+		inp_strg(frst->strg ? frst->strg : "(nil)");
+		inp_strg("\n");
 		frst = frst->next;
 		j++;
 	}
