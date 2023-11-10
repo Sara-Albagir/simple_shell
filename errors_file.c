@@ -1,35 +1,36 @@
 #include "main.h"
+
 /**
- *_aputs - prints an input string
- * @cha: string printed
+ * ef_puts - prints an input string
+ * @str: string printed
  *
  * Return: Nothing
  */
-void _aputs(char *cha)
+void ef_puts(char *str)
 {
 	int i = 0;
 
-	if (!cha)
+	if (!str)
 		return;
-	while (cha[i] != '\0')
+	while (str[i] != '\0')
 	{
-		_aputchar(cha[i]);
+		ef_putchar(str[i]);
 		i++;
 	}
 }
 
 /**
- * _bputchar - writes character x to stderr
- * @x: chara to print
+ * ef_putchar - writes character c to stderr
+ * @c: chara to print
  * Return: 1 on success.
  * On error, -1 is returned, and errno is set.
  */
-int _bputchar(char x)
+int ef_putchar(char c)
 {
 	static int i;
 	static char buf[WRITE_BUF_SIZE];
 
-	if (x == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
 	{
 		write(2, buf, i);
 		i = 0;
@@ -40,14 +41,14 @@ int _bputchar(char x)
 }
 
 /**
- * put_sd - writes the char c to given sd
+ * fd_put - writes the char c to given fd
  * @c: chara to print
- * @sd: file descriptor to write to
+ * @fd: file descriptor to write to
  *
  * Return: 1 On success.
  * On error, returns -1, and errno is set appropriately.
  */
-int put_sd(char c, int sd)
+int fd_put(char c, int fd)
 {
 	static int i;
 	static char buf[WRITE_BUF_SIZE];
@@ -63,13 +64,13 @@ int put_sd(char c, int sd)
 }
 
 /**
- * put_ssd - prints an input str
+ * fd_puts - prints an input str
  * @str: string printed
- * @sd: file descriptor to write to
+ * @fd: file descriptor to write to
  *
  * Return: Number of chars put.
  */
-int put_ssd(char *str, int sd)
+int fd_puts(char *str, int fd)
 {
 	int i = 0;
 
@@ -77,7 +78,7 @@ int put_ssd(char *str, int sd)
 		return (0);
 	while (*str)
 	{
-		i += put_sd(*str++, sd);
+		i += fd_put(*str++, fd);
 	}
 	return (i);
 }

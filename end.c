@@ -1,28 +1,29 @@
 #include "main.h"
+
 /**
  * str_cpy - copies a string.
  * @destin: Destination of astring to be copied to.
- * @sc: The source of string.
- * @c: amt of chara to be copied.
+ * @src: The source of string.
+ * @n: amt of chara to be copied.
  * Return: concatenated string.
  */
-char *str_cpy(char *destin, char *sc, int c)
+char *str_cpy(char *destin, char *src, int n)
 {
 	int i, o;
 	char *s = destin;
 
 	i = 0;
-	while (sc[i] != '\0' && i < c - 1)
+	while (src[i] != '\0' && i < n - 1)
 	{
-		destin[i] = sc[i];
+		destin[i] = src[i];
 		i++;
 	}
-	if (i < c)
+	if (i < n)
 	{
 		o = i;
-		while (o < c)
+		while (o < n)
 		{
-			dest[o] = '\0';
+			destin[o] = '\0';
 			o++;
 		}
 	}
@@ -30,13 +31,13 @@ char *str_cpy(char *destin, char *sc, int c)
 }
 
 /**
- * _strconcat - Concatenates two strings.
+ * str_cat - Concatenates two strings.
  * @destin: The first string.
- * @sc: The second string.
- * @c: The amt of bytes to be maximally used.
+ * @src: The second string.
+ * @n: The amt of bytes to be maximally used.
  * Return: concatenated string.
  */
-char *_strconcat(char *destin, char *sc, int c)
+char *str_cat(char *destin, char *src, int n)
 {
 	int i, o;
 	char *s = destin;
@@ -45,29 +46,29 @@ char *_strconcat(char *destin, char *sc, int c)
 	o = 0;
 	while (destin[i] != '\0')
 		i++;
-	while (sc[o] != '\0' && o < n)
+	while (src[o] != '\0' && o < n)
 	{
-		destin[i] = sc[o];
+		destin[i] = src[o];
 		i++;
 		o++;
 	}
-	if (o < c)
+	if (o < n)
 		destin[i] = '\0';
 	return (s);
 }
 
 /**
- * _chrstr - locates chara in a str.
- * @p: The string to be parsed.
- * @ch: Character to look for
+ * str_chr - locates chara in a str.
+ * @s: The string to be parsed.
+ * @c: Character to look for
  * Return: (s) pointer to the memory area s.
  */
-char *_chrstr(char *p, char ch)
+char *str_chr(char *s, char c)
 {
 	do {
-		if (*p == ch)
-			return (p);
-	} while (*p++ != '\0');
+		if (*s == c)
+			return (s);
+	} while (*s++ != '\0');
 
 	return (NULL);
 }

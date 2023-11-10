@@ -1,12 +1,13 @@
 #include "main.h"
+
 /**
- * my_exit - exits shell
+ * _my_exit - exits shell
  * @ads: Structure contains potential args. maintains
  * const funct prototype.
  * Return: With a given exit status, exits
  * (0) if info.argv[0] != "exit"
  */
-int my_exit(ads_t *ads)
+int _my_exit(ads_t *ads)
 {
 	int customExitCheck;
 
@@ -16,9 +17,9 @@ int my_exit(ads_t *ads)
 		if (customExitCheck == -1)
 		{
 			ads->status = 2;
-			_error(ads, "Illegal number: ");
-			_puts(ads->argv[1]);
-			_aputchar('\n');
+			error_print(ads, "Illegal number: ");
+			ef_puts(ads->argv[1]);
+			ef_putchar('\n');
 			return (1);
 		}
 		ads->err_num = _erratoi(ads->argv[1]);
@@ -29,64 +30,68 @@ int my_exit(ads_t *ads)
 }
 
 /**
- * my_cd - cd the current directory process
+ * _my_cds - cd the current directory process
  * @ads: Structure containing potential args. maintains
  * const function prototype.
  * Return: 0 Always
  */
-
-int my_cd(ads_t *ads)
+int _my_cds(ads_t *ads)
 {
 	char *a, *dir, buffer[1024];
-	int dirch_ret;
+	int chdir_ret;
 
-	a = _getcwd(buffer, 1024);
+	a = getcwd(buffer, 1024);
 	if (!a)
 		puts("TODO: >>_getcwd failure emsg here<<\n");
 	if (!ads->argv[1])
 	{
-		dir = gtenv(ads, "HOME=");
+		dir = _getenv(ads, "HOME=");
 		if (!dir)
-			dirch_ret = /* TODO: what should this be? */
-				dirch((dir = gtenv(ads, "PWD=")) ? dir : "/");
+			chdir_ret = /* TODO: what should this be? */
+				chdir((dir = _getenv(ads, "PWD=")) ? dir : "/");
 		else
-			dirch_ret = dirch(dir);
+			chdir_ret = chdir(dir);
 	}
-	else if (_cmpstr(ads->argv[1], "-") == 0)
+	else if (_strcmp(ads->argv[1], "-") == 0)
 	{
-		if (!gtenv(ads, "OLDPWD="))
+		if (!_getenv(ads, "OLDPWD="))
 		{
 			_puts(a);
-			_aputchar('\n');
+			_putchar('\n');
 			return (1);
 		}
-		_puts(gtenv(ads, "OLDPWD=")), _aputchar('\n');
-		dirch_ret = /* TODO: what should this be? */
-			dirch((dir = gtenv(ads, "OLDPWD=")) ? dir : "/");
+		_puts(_getenv(ads, "OLDPWD=")), _putchar('\n');
+		chdir_ret = /* TODO: what should this be? */
+			chdir((dir = _getenv(ads, "OLDPWD=")) ? dir : "/");
 	}
 	else
-		dirch_ret = dirch(ads->argv[1]);
-	if (dirch_ret == -1)
+		chdir_ret = chdir(ads->argv[1]);
+	if (chdir_ret == -1)
 	{
-		_error(ads, "can't cd to ");
-		_puts(ads->argv[1]), _aputchar('\n');
+		print_error(ads, "can't cd to ");
+		ef_puts(ads->argv[1]), ef_putchar('\n');
 	}
 	else
 	{
-		_envset(ads, "OLDPWD", gtenv(ads, "PWD="));
-		_envset(ads, "PWD", _getcwd(buffer, 1024));
+		_setenv(ads, "OLDPWD", _getenv(ads, "PWD="));
+		_setenv(ads, "PWD", getcwd(buffer, 1024));
 	}
 	return (0);
 }
 
 /**
- * my_help - cd the current dir of the process
+ * _my_help - cd the current dir of the process
  * @ads: The Struct contains potential arguments. To maintain
  * const function prototype.
  * Return: 0 Always
  */
-int my_help(ads_t *ads)
+int _my_help(ads_t *ads)
 {
-	puts("help call works. Function not yet implemented \n");
+	char **arg_array;
+
+	arg_array = ads->argv;
+	_puts("help call works. Function not yet implemented \n");
+	if (0)
+		_puts(*arg_array); /* workaround temp unused_att */
 	return (0);
 }

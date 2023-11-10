@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * clear_ads - initializes ads_t struct.
  * @ads: The struct address.
@@ -6,37 +7,37 @@
 void clear_ads(ads_t *ads)
 {
 	ads->arg = NULL;
-	ads->argo = NULL;
+	ads->argv = NULL;
 	ads->path = NULL;
-	ads->args = 0;
+	ads->argc = 0;
 }
 
 /**
- * _setads - initializes ads_t struct.
+ * set_ads - initializes ads_t struct.
  * @ads: The struct address.
- * @avs: The argument vectors.
+ * @av: The argument vectors.
  */
-void _setads(ads_t *ads, char **avs)
+void set_ads(ads_t *ads, char **av)
 {
 	int i = 0;
 
-	ads->fname = avs[0];
+	ads->fname = av[0];
 	if (ads->arg)
 	{
-		ads->argo = strtow(ads->arg, " \t");
-		if (!ads->argo)
+		ads->argv = strtow(ads->arg, " \t");
+		if (!ads->argv)
 		{
 
-			ads->argo = malloc(sizeof(char *) * 2);
-			if (ads->argo)
+			ads->arg = malloc(sizeof(char *) * 2);
+			if (ads->argv)
 			{
-				ads->argo[0] = _strdup(ads->arg);
-				ads->argo[1] = NULL;
+				ads->argv[0] = _strdup(ads->arg);
+				ads->argv[1] = NULL;
 			}
 		}
-		for (i = 0; ads->argo && ads->argo[i]; i++)
+		for (i = 0; ads->argv && ads->argv[i]; i++)
 			;
-		ads->args = i;
+		ads->argc = i;
 
 		replace_alias(ads);
 		replace_vars(ads);
@@ -44,18 +45,18 @@ void _setads(ads_t *ads, char **avs)
 }
 
 /**
- * _freeads - frees ads_t struct fields.
+ * free_ads - frees ads_t struct fields.
  * @ads: The struct address.
- * @all_f: is true if freeing fields.
+ * @all: is true if freeing fields.
  */
-void _freeads(ads_t *ads, int all_f)
+void free_ads(ads_t *ads, int all)
 {
-	ffree(ads->argo);
-	ads->argo = NULL;
+	ffree(ads->argv);
+	ads->argv = NULL;
 	ads->path = NULL;
-	if (all_f)
+	if (all)
 	{
-		if (!ads->cmd_buff)
+		if (!ads->cmd_buf)
 			free(ads->arg);
 		if (ads->env)
 			free_list(&(ads->env));
@@ -65,7 +66,7 @@ void _freeads(ads_t *ads, int all_f)
 			free_list(&(ads->alias));
 		ffree(ads->envir);
 			ads->envir = NULL;
-		bfree((void **)ads->cmd_buff);
+		bfree((void **)ads->cmd_buf);
 		if (ads->readfd > 2)
 			close(ads->readfd);
 		_putchar(BUF_FLUSH);

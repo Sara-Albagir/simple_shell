@@ -1,41 +1,43 @@
 #include "main.h"
+
 /**
- * _inputbuf - buffs chained commands.
+ * _get_input - buffs chained commands.
  * @ads: The parameter struct.
- * @buff: The address of buff.
- * @alen: The address of alen var.
+ * @buf: The address of buffer.
+ * @len: The address of alen var.
+ *
  * Return: bytes read.
  */
-ssize_t _inputbuf(ads_t *ads, char **buff, size_t *alen)
+ssize_t _get_input(ads_t *ads, char **buf, size_t *len)
 {
 	ssize_t r = 0;
-	size_t alen_p = 0;
+	size_t len_p = 0;
 
 	if (!*alen) /* if nothn left in the buffer, fill it */
 	{
 		/*bfree((void **)info->cmd_buf);*/
-		free(*buff);
-		*buff = NULL;
+		free(*buf);
+		*buf = NULL;
 		signal(SIGINT, sigintHandler);
 #if USE_GETLINE
-		r = getline(buff, &alen_p, stdin);
+		r = getline(buf, &len_p, stdin);
 #else
-		r = _getline(ads, buff, &alen_p);
+		r = _getline(ads, buf, &len_p);
 #endif
 		if (r > 0)
 		{
-			if ((*buff)[r - 1] == '\n')
+			if ((*buf)[r - 1] == '\n')
 			{
-				(*buff)[r - 1] = '\0';
+				(*buf)[r - 1] = '\0';
 				r--;
 			}
 			ads->linecount_flag = 1;
-			remove_comments(*buff);
-			build_history_list(ads, *buff, ads->histcount++);
+			remove_comments(*buf);
+			build_history_list(ads, *buf, ads->histcount++);
 			/* if (_strchr(*buf, ';')) is this command chain? */
 			{
-				*alen = r;
-				ads->cmd_buff = buff;
+				*len = r;
+				ads->cmd_buf = buf;
 			}
 		}
 	}
@@ -43,124 +45,124 @@ ssize_t _inputbuf(ads_t *ads, char **buff, size_t *alen)
 }
 
 /**
- * _getinput - Gets a line minus the newline.
+ * get_input - Gets a line minus the newline.
  * @ads: The parameter structure.
  *
  * Return: The bytes read.
  */
-ssize_t _getinput(ads_t *ads)
+ssize_t get_input(ads_t *ads)
 {
-	static char *buff; /* the ';' command chain buffer */
+	static char *buf; /* the ';' command chain buffer */
 	static size_t i, o, alen;
 	ssize_t r = 0;
-	char **buff_p = &(ads->arg), *p;
+	char **buf_p = &(ads->arg), *p;
 
 	_putchar(BUF_FLUSH);
-	r = _inputbuff(ads, &buff, &alen);
+	r = _inputbuf(ads, &buf, &len);
 	if (r == -1) /* EOF */
 		return (-1);
-	if (alen)	/* we have commands left in the chain buffer */
+	if (len)	/* we have commands left in the chain buffer */
 	{
 		o = i; /* init new iterator to current buf position */
-		p = buff + i; /* get pointer for return */
+		p = buf + i; /* get pointer for return */
 
-		check_chain(ads, buff, &o, i, alen);
+		check_chain(ads, buf, &o, i, len);
 		while (o < len)
 		{
-			if (is_chain(ads, buff, &o))
+			if (is_chain(ads, buf, &o))
 				break;
 			o++;
 		}
 
 		i = o + 1; /* increment past nulled ';'' */
-		if (i >= alen) /* reached end of buffer? */
+		if (i >= len) /* reached end of buffer? */
 		{
-			i = alen = 0; /* reset position and length */
-			ads->cmd_buff_type = CMD_NORM;
+			i = len = 0; /* reset position and length */
+			ads->cmd_buf_type = CMD_NORM;
 		}
 
-		*buff_p = p; /* pass back pointer to current command position */
+		*buf_p = p; /* pass back pointer to current command position */
 		return (_strlen(p)); /* return length of current command */
 	}
 
-	*buff_p = buff; /* else not a chain, pass back buffer from _getline() */
+	*buf_p = buf; /* else not a chain, pass back buffer from _getline() */
 	return (r); /* return length of buffer from _getline() */
 }
 
 /**
- * read_buff - reads buffer.
+ * read_buf - reads buffer.
  * @ads: The parameter struct.
- * @buff: buffer.
- * @n: size.
+ * @buf: buffer.
+ * @i: size.
  *
- * Return: h
+ * Return: r
  */
-ssize_t read_buff(ads_t *ads, char *buff, size_t *n)
+ssize_t read_buf(ads_t *ads, char *buf, size_t *i)
 {
-	ssize_t h = 0;
+	ssize_t r = 0;
 
-	if (*n)
+	if (*i)
 		return (0);
-	h = read(ads->readfd, buff, READ_BUF_SIZE);
-	if (h >= 0)
-		*i = h;
-	return (h);
+	r = read(ads->readfd, buf, READ_BUF_SIZE);
+	if (r >= 0)
+		*i = r;
+	return (r);
 }
 
 /**
- * get_line - gets the next line from STDIN.
+ * _get_line - gets the next line from STDIN.
  * @ads: The parameter struct.
- * @ptb: The address of pointer to buffer, preallocated or NULL.
+ * @ptr: The address of pointer to buffer, preallocated or NULL.
  * @length: size of preallocated ptr buffer if not NULL
  *
- * Return: v
+ * Return: s
  */
-int get_line(ads_t *ads, char **ptb, size_t *length)
+int _get_line(ads_t *ads, char **ptr, size_t *length)
 {
 	static char buf[READ_BUF_SIZE];
-	static size_t i, alen;
+	static size_t i, len;
 	size_t k;
-	ssize_t r = 0, v = 0;
+	ssize_t r = 0, s = 0;
 	char *p = NULL, *new_p = NULL, *c;
 
-	p = *ptb;
+	p = *ptr;
 	if (p && length)
 		s = *length;
-	if (i == alen)
-		i = alen = 0;
+	if (i == len)
+		i = len = 0;
 
-	r = read_buf(ads, buf, &alen);
-	if (r == -1 || (r == 0 && alen == 0))
+	r = read_buf(ads, buf, &len);
+	if (r == -1 || (r == 0 && len == 0))
 		return (-1);
 
-	c = _chrstr(buf + i, '\n');
-	k = c ? 1 + (unsigned int)(c - buff) : alen;
+	c = _strcha(buf + i, '\n');
+	k = c ? 1 + (unsigned int)(c - buff) : len;
 	new_p = _realloc(p, s, s ? s + k : k + 1);
 	if (!new_p) /* MALLOC FAILURE! */
 		return (p ? free(p), -1 : -1);
 
-	if (v)
-		_strconcat(new_p, buff + i, k - i);
+	if (s)
+		str_cat(new_p, buf + i, k - i);
 	else
-		str_cpy(new_p, buff + i, k - i + 1);
+		str_cpy(new_p, buf + i, k - i + 1);
 
-	v += k - i;
+	s += k - i;
 	i = k;
 	p = new_p;
 
 	if (length)
 		*length = s;
 	*ptr = p;
-	return (v);
+	return (s);
 }
 
 /**
- * sigint_Handler - Blocks ctrl-C.
- * @_signum: signal number.
+ * _sigintHandler - Blocks ctrl-C.
+ * @sig_num: signal number.
  *
  * Return: void
  */
-void sigint_Handler(__attribute__((unused))int _signum)
+void _sigintHandler(__attribute__((unused))int sig_num)
 {
 	_puts("\n");
 	_puts("$ ");

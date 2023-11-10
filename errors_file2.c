@@ -1,15 +1,15 @@
 #include "main.h"
+
 /**
- * _toi - converts a string to int
+ * erra_toi - converts a string to int
  * @s: string converted
  * Return: if no numbers in string 0, converted num otherwise
  * -1 on error
  */
-
-int _toi(char *s)
+int erra_toi(char *s)
 {
 	int i = 0;
-	unsigned long int output = 0;
+	unsigned long int result = 0;
 
 	if (*s == '+')
 		s++;  /* TODO: why does this make main return 255? */
@@ -17,55 +17,55 @@ int _toi(char *s)
 	{
 		if (s[i] >= '0' && s[i] <= '9')
 		{
-			output *= 10;
-			output += (s[i] - '0');
-			if (output > INT_MAX)
+			result *= 10;
+			result += (s[i] - '0');
+			if (result > INT_MAX)
 				return (-1);
 		}
 		else
 			return (-1);
 	}
-	return (output);
+	return (result);
 }
 
 /**
- * _error - prints error message
+ * error_print - prints error message
  * @ads: para and returns ads struct
  * @astr: string containing spec error type
  * Return: if no numbers in string 0, converted number otherwise
  * -1 on error
  */
 
-void _error(ads_t *ads, char *astr)
+void error_print(ads_t *ads, char *astr)
 {
-	_eputs(ads->fname);
-	_eputs(": ");
-	print_d(ads->line_count, STDERR_FILENO);
-	_eputs(": ");
-	_eputs(ads->argv[0]);
-	_eputs(": ");
-	_eputs(astr);
+	ef_puts(ads->fname);
+	ef_puts(": ");
+	print_e(ads->line_count, STDERR_FILENO);
+	ef_puts(": ");
+	ef_puts(ads->argv[0]);
+	ef_puts(": ");
+	ef_puts(astr);
 }
 
 /**
  * print_e - Prints a decimal (int) num (base 10)
  * @input: The input.
- * @fde: File descriptor to write to
+ * @fd: File descriptor to write to
  * Return: The num of chara printed.
  */
-int print_e(int input, int fde)
+int print_e(int input, int fd)
 {
 	int (*__putchar)(char) = _putchar;
 	int i, total = 0;
 	unsigned int _abs_, current;
 
-	if (fde == STDERR_FILENO)
+	if (fd == STDERR_FILENO)
 		__putchar = _eputchar;
 	if (input < 0)
 	{
 		_abs_ = -input;
 		__putchar('-');
-		total++;
+		count++;
 	}
 	else
 		_abs_ = input;
@@ -80,20 +80,20 @@ int print_e(int input, int fde)
 		current %= i;
 	}
 	__putchar('0' + current);
-	total++;
+	count++;
 
-	return (total);
+	return (count);
 }
 
 /**
- * _convertnum - function convertor, clone.
- * @num: numb
+ * convert_num - function convertor, clone.
+ * @num: number
  * @base: base.
  * @flags: The arg flags.
  *
- * Return: A strin.g
+ * Return: string
  */
-char *_convertnum(long int num, int base, int flags)
+char *convert_num(long int num, int base, int flags)
 {
 	static char *array;
 	static char buffer[50];
@@ -123,18 +123,18 @@ char *_convertnum(long int num, int base, int flags)
 
 /**
  * removes_comments - ftn replaces first instance of '#' with '\0'.
- * @mod: THe address of  string to modify.
+ * @buf: THe address of  string to modify.
  *
  * Return: 0 Always;
  */
-void removes_comments(char *mod)
+void removes_comments(char *buf)
 {
 	int i;
 
-	for (i = 0; mod[i] != '\0'; i++)
-		if (mod[i] == '#' && (!i || mod[i - 1] == ' '))
+	for (i = 0; buf[i] != '\0'; i++)
+		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
 		{
-			mod[i] = '\0';
+			buf[i] = '\0';
 			break;
 		}
 }

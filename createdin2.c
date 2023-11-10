@@ -1,76 +1,76 @@
 #include "main.h"
+
 /**
- * myhistory - Displays history list, a command by line, preceded
+ * _my_history - Displays history list, a command by line, preceded
  * with line nums, starting at 0.
  * @ads: Structure contains potential arguments. Used to maintain
  * const function prototype.
  * Return: 0 Always
  */
-int myhistory(ads_t *ads)
+int _my_history(ads_t *ads)
 {
 	pnt_list(ads->history);
 	return (0);
 }
 
 /**
- * _alias - sets alias
+ * _my_alias - sets alias
  * @ads: parameter struct
- * @cha: string alias
+ * @str: string alias
  *
  * Return: 0 Always on success, 1 on error
  */
-int _alias(ads_t *ads, char *cha)
+int _my_alias(ads_t *ads, char *str)
 {
 	char *p, a;
 	int ret;
 
-	p = _chrstr(cha, '=');
+	p = _strchr(str, '=');
 	if (!p)
 		return (1);
 	a = *p;
 	*p = 0;
-	ret = delete_node_at_index(&(ads->alias),
-		get_node_index(ads->alias, node_starts_with(ads->alias, str, -1)));
+	ret = delete_section_at_index(&(ads->alias),
+		get_section_index(ads->alias, section_starts_with(ads->alias, str, -1)));
 	*p = a;
 	return (ret);
 }
 
 /**
- * _salias - sets the alias to string
+ * _my_set_alias - sets the alias to string
  * @ads: The parameter struct
- * @cha: string alias
+ * @str: string alias
  *
  * Return: 0 Always on success, 1 on error
  */
-int _salias(ads_t *ads, char *cha)
+int _my_set_alias(ads_t *ads, char *str)
 {
 	char *p;
 
-	p = _chrstr(cha, '=');
+	p = _strchr(str, '=');
 	if (!p)
 		return (1);
 	if (!*++p)
-		return (_alias(ads, cha));
+		return (_my_alias(ads, str));
 
-	_alias(ads, cha);
-	return (add_node_end(&(ads->alias), str, 0) == NULL);
+	_my_alias(ads, str);
+	return (add_section_end(&(ads->alias), str, 0) == NULL);
 }
 
 /**
- * _palias - displays history of list, a command by line,
- * prints alias string
+ * _my_print_alias - display an alias string
  * @section: alias node
  *
  * Return: 0 Always on success, 1 on error
  */
-int _palias(list_t *section)
+int _my_print_alias(list_t *section)
 {
 	char *p = NULL, *a = NULL;
 
 	if (section)
 	{
-		p = _chrstr(section->cha, '=');
-		for (a = section->cha; a <= p; a++)
+		p = _strchr(section->str, '=');
+		for (a = section->str; a <= p; a++)
 			_putchar(*a);
 		_putchar('\'');
 		_puts(p + 1);
@@ -81,12 +81,12 @@ int _palias(list_t *section)
 }
 
 /**
- * _aliass - mimics the alias createdin (man alias)
+ * _myalias - mimics the alias createdin (man alias)
  * @ads: Structure contains potential args. To maintain
  * const function prototype.
  * Return: 0 Always
  */
-int _aliass(ads_t *ads)
+int _myalias(ads_t *ads)
 {
 	int i = 0;
 	char *p = NULL;
@@ -97,18 +97,18 @@ int _aliass(ads_t *ads)
 		section = ads->alias;
 		while (section)
 		{
-			_palias(section);
+			_my_print_palias(section);
 			section = section->next;
 		}
 		return (0);
 	}
 	for (i = 1; ads->argv[i]; i++)
 	{
-		p = _chrstr(ads->argv[i], '=');
+		p = _strchr(ads->argv[i], '=');
 		if (p)
-			_salias(ads, ads->argv[i]);
+			_my_set_alias(ads, ads->argv[i]);
 		else
-			_palias(section_starts_with(ads->alias, ads->argv[i], '='));
+			_my_print_alias(section_starts_with(ads->alias, ads->argv[i], '='));
 	}
 
 	return (0);

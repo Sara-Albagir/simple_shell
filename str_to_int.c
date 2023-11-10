@@ -1,7 +1,9 @@
 #include "main.h"
+
 /**
  * _inter_active - returns true if shell is interactive.
  * @ads: struct address
+ *
  * Return: interactive mode 1, 0 otherwise.
  */
 int _inter_active(ads_t *ads)
@@ -45,19 +47,19 @@ int alpha(int b)
 
 int str_to_int(char *c)
 {
-	int w, sign = 1, flag = 0, output;
+	int i, sign = 1, flag = 0, output;
 	unsigned int result = 0;
 
-	for (w = 0;  c[w] != '\0' && flag != 2; w++)
+	for (i = 0;  c[i] != '\0' && flag != 2; i++)
 	{
-		if (c[w] == '-')
+		if (c[i] == '-')
 			sign *= -1;
 
-		if (c[w] >= '0' && c[w] <= '9')
+		if (c[i] >= '0' && c[i] <= '9')
 		{
 			flag = 1;
 			result *= 10;
-			result += (c[w] - '0');
+			result += (c[i] - '0');
 		}
 		else if (flag == 1)
 			flag = 2;

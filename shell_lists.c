@@ -1,12 +1,13 @@
 #include "main.h"
+
 /**
- * _add_sectin - a function that adds a node.
+ * add_section - function that adds a node.
  * @lead: points to the leading node.
  * @str: string in question.
- * @ind_num: the indx of the _add_section_end.
+ * @num: the section index of the add_section_end.
  * Return: an int.
  */
-list_t *_add_sectin(list_t **lead, const char *str, int ind_num)
+list_t *add_section(list_t **lead, const char *str, int num)
 {
 	list_t *new_lead;
 
@@ -15,11 +16,11 @@ list_t *_add_sectin(list_t **lead, const char *str, int ind_num)
 	new_lead = malloc(sizeof(list_t));
 	if (!new_lead)
 		return (NULL);
-	memset((void *)new_lead, 0, sizeof(list_t));
-	new_lead->ind_num = ind_num;
+	_memset((void *)new_lead, 0, sizeof(list_t));
+	new_lead->ind_num = num;
 	if (str)
 	{
-		new_lead->str = strdup(str);
+		new_lead->str = _strdup(str);
 		if (!new_lead->str)
 		{
 			free(new_lead);
@@ -32,13 +33,13 @@ list_t *_add_sectin(list_t **lead, const char *str, int ind_num)
 }
 
 /**
- * _add_section_end - a function that adds a _add_section_end at the end.
+ * add_section_end - a function that adds a _add_section_end at the end.
  * @lead: points to the leading _add_section_end.
  * @str: string in question.
- * @ind_num: the indx of the _add_section_end.
+ * @num: the index of the add_section_end.
  * Return: an int.
  */
-list_t *_add_section_end(list_t **lead, const char *str, int ind_num)
+list_t *add_section_end(list_t **lead, const char *str, int ind_num)
 {
 	list_t *new_section, *section;
 
@@ -49,8 +50,8 @@ list_t *_add_section_end(list_t **lead, const char *str, int ind_num)
 	new_section = malloc(sizeof(list_t));
 	if (!new_section)
 		return (NULL);
-	memset((void *)new_section, 0, sizeof(list_t));
-	new_section->ind_num = ind_num;
+	_memset((void *)new_section, 0, sizeof(list_t));
+	new_section->num = num;
 	if (str)
 	{
 		new_section->str = strdup(str);
@@ -72,18 +73,18 @@ list_t *_add_section_end(list_t **lead, const char *str, int ind_num)
 }
 
 /**
- * strg_listprint - a function that only prints string element.
+ * str_printlist - function that only prints string element.
  * @frst: 1st section pointer.
  * Return: an int.
  */
-size_t strg_listprint(const list_t *frst)
+size_t str_printlist(const list_t *frst)
 {
 	size_t j = 0;
 
 	while (frst)
 	{
-		puts(frst->str ? frst->str : "(nil)");
-		puts("\n");
+		_puts(frst->str ? frst->str : "(nil)");
+		_puts("\n");
 		frst = frst->next;
 		j++;
 	}
@@ -91,12 +92,12 @@ size_t strg_listprint(const list_t *frst)
 }
 
 /**
- * _section_delete - a function that delete a node.
+ * section_delete - a function that delete a node.
  * @lead: points to the leading _add_section_end.
- * @indx: nodes to delete.
+ * @index: nodes to delete.
  * Return: 0 or 1.
  */
-int _section_delete(list_t **lead, unsigned int indx)
+int section_delete(list_t **lead, unsigned int index)
 {
 	list_t *section, *pre_section;
 	unsigned int j = 0;
@@ -104,7 +105,7 @@ int _section_delete(list_t **lead, unsigned int indx)
 	if (!lead || !*lead)
 		return (0);
 
-	if (!indx)
+	if (!index)
 	{
 		section = *lead;
 		*lead = (*lead)->next;
@@ -115,7 +116,7 @@ int _section_delete(list_t **lead, unsigned int indx)
 	section = *lead;
 	while (section)
 	{
-		if (j == indx)
+		if (j == index)
 		{
 			pre_section->next = section->next;
 			free(section->str);
@@ -130,15 +131,15 @@ int _section_delete(list_t **lead, unsigned int indx)
 }
 
 /**
- * _listfree - function that free all nodes.
- * @lead_poinads: points to the leading node.
+ * list_free - function that free all nodes.
+ * @lead_ptr: points to the leading node.
  * Return: none.
  */
-void _listfree(list_t **lead_poinads)
+void list_free(list_t **lead_ptr)
 {
 	list_t *section, *next_section, *lead;
 
-	if (!lead_poinads || !*lead_poinads)
+	if (!lead_ptr || !*lead_ptr)
 		return;
 	lead = *lead_poinads;
 	section = lead;
@@ -149,5 +150,5 @@ void _listfree(list_t **lead_poinads)
 		free(section);
 		section = next_section;
 	}
-	*lead_poinads = NULL;
+	*lead_ptr = NULL;
 }

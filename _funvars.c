@@ -35,7 +35,7 @@ int _ischain(ads_t *ads, char *buff, size_t *q)
 }
 
 /**
- * _checkchain - reach status to confirm continuing.
+ * _checkchain - reach statuss to confirm continuing.
  * @ads: a parameter of type struct.
  * @buff: character buf.
  * @q: a buf address.
@@ -49,7 +49,7 @@ void _checkchain(ads_t *ads, char *buff, size_t *q, size_t j, size_t ln)
 
 	if (ads->cmd_buff_type == CMD_AND)
 	{
-		if (ads->status)
+		if (ads->statuss)
 		{
 			buff[j] = 0;
 			y = ln;
@@ -57,7 +57,7 @@ void _checkchain(ads_t *ads, char *buff, size_t *q, size_t j, size_t ln)
 	}
 	if (ads->cmd_buff_type == CMD_OR)
 	{
-		if (!ads->status)
+		if (!ads->statuss)
 		{
 			buff[j] = 0;
 			y = ln;
@@ -87,7 +87,7 @@ int _alias_rep(info_t *ads)
 		q = _strchr(section->str, '=');
 		if (!q)
 			return (0);
-		q = _strdup(q + 1);
+		q = dup_strg(q + 1);
 		if (!q)
 			return (0);
 		ads->argo[0] = q;
@@ -110,26 +110,26 @@ int _vars_rep(ads_t *ads)
 		if (ads->argo[j][0] != '$' || !ads->argo[j][1])
 			continue;
 
-		if (!_strcmp(ads->argo[j], "$?"))
+		if (!cmp_strg(ads->argo[j], "$?"))
 		{
 			_string_rep(&(ads->argo[j]),
-				_strdup(convert_number(ads->status, 10, 0)));
+				dup_strg(convert_number(ads->statuss, 10, 0)));
 			continue;
 		}
-		if (!_strcmp(ads->argo[j], "$$"))
+		if (!cmp_strg(ads->argo[j], "$$"))
 		{
 			_string_rep(&(ads->argo[j]),
-				_strdup(convert_number(getpid(), 10, 0)));
+				dup_strg(convert_number(getpid(), 10, 0)));
 			continue;
 		}
-		section = node_starts_with(ads->env, &ads->argo[j][1], '=');
+		section = section_starter(ads->env, &ads->argo[j][1], '=');
 		if (section)
 		{
 			_string_rep(&(ads->argo[j]),
-				_strdup(_strchr(section->str, '=') + 1));
+				dup_strg(_strchr(section->str, '=') + 1));
 			continue;
 		}
-		_string_rep(&ads->argo[j], _strdup(""));
+		_string_rep(&ads->argo[j], dup_strg(""));
 
 	}
 	return (0);

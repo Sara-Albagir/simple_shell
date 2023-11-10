@@ -36,8 +36,6 @@
 
 extern char **envir;
 
-char *starts_with(const char *str, const char *prefix);
-
 /**
  * struct liststr - singly linked list
  * @num: the number field
@@ -48,7 +46,6 @@ typedef struct liststr
 {
 	int num;
 	char *str;
-	int ind_num;
 	struct liststr *next;
 } list_t;
 
@@ -103,15 +100,15 @@ typedef struct passads
 	0, 0, 0}
 
 /**
- *struct createdin - contains a createdin string and related function
+ *struct builtin - contains a createdin string and related function
  *@type: command flag createdin
  *@func: function
  */
-typedef struct createdin
+typedef struct builtin
 {
 	char *type;
 	int (*func)(ads_t *);
-} createdin_table;
+} builtin_table;
 
 
 /* _shloop.c */
@@ -128,11 +125,11 @@ char *find_filepath(ads_t *, char *, char *);
 /* loophsh.c */
 int loophsh(char **);
 
-/* _errors.c */
-void my_puts(char *);
-int _aputchar(char);
-int _putfd(char c, int fd);
-int putsfd(char *str, int fd);
+/* errors_file.c */
+void ef_puts(char *);
+int ef_putchar(char);
+int fd_put(char c, int fd);
+int fd_puts(char *str, int fd);
 
 /* _funrow_string.c */
 int strg_len(char *);
@@ -146,10 +143,10 @@ char *dup_strg(const char *);
 void inp_strg(char *);
 int _printchar(char);
 
-/* _exits.c */
+/* end.c */
 char *str_cpy(char *, char *, int);
-char *_strconcat(char *, char *, int);
-char *_chrstr(char *, char);
+char *str_cat(char *, char *, int);
+char *str_chr(char *, char);
 
 /* _funsplitter.c */
 char **spltstr(char *, char *);
@@ -169,57 +166,57 @@ int delim(char, char *);
 int alpha(int);
 int str_to_int(char *);
 
-/* _errors1.c */
-int _toi(char *);
-void _error(ads_t *, char *);
+/* errors_file2.c */
+int erra_toi(char *);
+void error_print(ads_t *, char *);
 int print_d(int, int);
-char *convert_number(long int, int, int);
+char *convert_num(long int, int, int);
 void remove_comments(char *);
 
 /* _createdin.c */
-int s_exit(ads_t *);
-int _cds(ads_t *);
-int myhelp(ads_t *);
+int _my_exit(ads_t *);
+int _my_cds(ads_t *);
+int _my_help(ads_t *);
 
 /* _createdin2.c */
-int myhistory(ads_t *);
-int _aliass(ads_t *);
+int _my_history(ads_t *);
+int _my_alias(ads_t *);
 
-/* _get_line.c */
-ssize_t _getinput(ads_t *);
-int get_line(ads_t *, char **, size_t *);
-void sigintHandler(int);
+/* get_line.c */
+ssize_t _get_input(ads_t *);
+int _get_line(ads_t *, char **, size_t *);
+void _sigintHandler(int);
 
-/* _getads.c */
+/* info.c */
 void clear_ads(ads_t *);
 void set_ads(ads_t *, char **);
 void free_ads(ads_t *, int);
 
-/* _envir.c */
-char *gtenv(ads_t *, const char *);
-int _myenv(ads_t *);
-int _mysetenv(ads_t *);
-int _myunsetenv(ads_t *);
-int populate_env_list(ads_t *);
+/* envi.c */
+char *get_env(ads_t *, const char *);
+int my_env(ads_t *);
+int my_set_env(ads_t *);
+int my_unset_env(ads_t *);
+int populate_envlist(ads_t *);
 
-/* gtenv.c */
+/* g_env.c */
 char **envir_getter(ads_t *);
 int unset_env(ads_t *, char *);
-int _envset(ads_t *, char *, char *);
+int set_env(ads_t *, char *, char *);
 
 /* _history.c */
 char *history_file(ads_t *ads);
 int write_history_file(ads_t *ads);
-int _readhistory(ads_t *ads);
-int history_list(ads_t *ads, char *buf, int linecount);
-int re_num_history(ads_t *ads);
+int read_history(ads_t *ads);
+int buildhistory_list(ads_t *ads, char *buf, int linecount);
+int renum_history(ads_t *ads);
 
-/* _shell_lists */
+/* shell_lists.c */
 list_t *add_section(list_t **, const char *, int);
-list_t *_add_section_end(list_t **, const char *, int);
-size_t _strg_listprint(const list_t *);
-int _section_delete(list_t **, unsigned int);
-void _listfree(list_t **);
+list_t *add_section_end(list_t **, const char *, int);
+size_t str_printlist(const list_t *);
+int section_delete(list_t **, unsigned int);
+void list_free(list_t **);
 
 /* _lists1.c */
 size_t list_len(const list_t *);

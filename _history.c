@@ -1,35 +1,38 @@
 #include "main.h"
+
 /**
  * history_file - The history file
  * @ads: parameter struct.
+ *
  * Return: allocated str containg history of file
  */
 char *history_file(ads_t *ads)
 {
-	char *buff, *dir;
+	char *buf, *dir;
 
-	dir = get_env(ads, "HOME=");
+	dir = _getenv(ads, "HOME=");
 	if (!dir)
 		return (NULL);
-	buff = malloc(sizeof(char) * (_strlen(dir) + _strlen(HIST_FILE) + 2));
-	if (!buff)
+	buf = malloc(sizeof(char) * (_strlen(dir) + _strlen(HIST_FILE) + 2));
+	if (!buf)
 		return (NULL);
-	buff[0] = 0;
-	str_cpy(buff, dir);
-	_strconcat(buff, "/");
-	_strconcat(buff, HIST_FILE);
-	return (buff);
+	buf[0] = 0;
+	str_cpy(buf, dir);
+	str_cat(buf, "/");
+	str_cat(buf, HIST_FILE);
+	return (buf);
 }
 
 /**
  * write_history_file - creates file, or appends existing file
  * @ads: Parameter struct.
+ *
  * Return: success 1, else -1
  */
 int write_history_file(ads_t *ads)
 {
 	ssize_t fd;
-	char *filename = get_history_file(ads);
+	char *filename = history_file(ads);
 	list_t *section = NULL;
 
 	if (!filename)
@@ -41,25 +44,26 @@ int write_history_file(ads_t *ads)
 		return (-1);
 	for (section = ads->history; section; section = section->next)
 	{
-		_putsfd(section->str, fd);
-		_putfd('\n', fd);
+		fd_puts(section->str, fd);
+		fd_put('\n', fd);
 	}
-	_putfd(BUF_FLUSH, fd);
+	fd_put(BUF_FLUSH, fd);
 	close(fd);
 	return (1);
 }
 
 /**
- * _readhistory - reads history from the file.
+ * read_history - reads history from the file.
  * @ads: Parameter struct
+ *
  * Return: histcount on success, otherwise 0
  */
-int _readhistory(ads_t *ads)
+int read_history(ads_t *ads)
 {
 	int i, last = 0, linecount = 0;
 	ssize_t fd, rdlen, fsize = 0;
 	struct stat st;
-	char *buff = NULL, *filename = get_history_file(ads);
+	char *buf = NULL, *filename = history_file(ads);
 
 	if (!filename)
 		return (0);
@@ -73,44 +77,44 @@ int _readhistory(ads_t *ads)
 	if (fsize < 2)
 		return (0);
 	buf = malloc(sizeof(char) * (fsize + 1));
-	if (!buff)
+	if (!buf)
 		return (0);
-	rdlen = read(fd, buff, fsize);
+	rdlen = read(fd, buf, fsize);
 	buff[fsize] = 0;
 	if (rdlen <= 0)
-		return (free(buff), 0);
+		return (free(buf), 0);
 	close(fd);
 	for (i = 0; i < fsize; i++)
-		if (buff[i] == '\n')
+		if (buf[i] == '\n')
 		{
-			buff[i] = 0;
-			build_history_list(ads, buff + last, linecount++);
+			buf[i] = 0;
+			buildhistory_list(ads, buf + last, linecount++);
 			last = i + 1;
 		}
 	if (last != i)
-		build_history_list(ads, buff + last, linecount++);
-	free(buff);
+		buildhistory_list(ads, buf + last, linecount++);
+	free(buf);
 	ads->histcount = linecount;
 	while (ads->histcount-- >= HIST_MAX)
-		delete_node_at_index(&(ads->history), 0);
+		delete_section_at_index(&(ads->history), 0);
 	renumber_history(ads);
 	return (ads->histcount);
 }
 
 /**
- * history_list - adds entry to history linkd list.
+ * buildhistory_list - adds entry to history linkd list.
  * @ads: Struct containing potential args.
- * @buff: buffer.
- * @line_count: History linecount.
+ * @buf: buffer.
+ * @linecount: History linecount.
  * Return: 0 Always
  */
-int history_list(ads_t *ads, char *buff, int line_count)
+int buildhistory_list(ads_t *ads, char *buf, int linecount)
 {
 	list_t *section = NULL;
 
 	if (ads->history)
 		section = ads->history;
-	add_node_end(&section, buff, line_count);
+	add_section_end(&section, buf, linecount);
 
 	if (!ads->history)
 		ads->history = section;
@@ -118,11 +122,12 @@ int history_list(ads_t *ads, char *buff, int line_count)
 }
 
 /**
- * re_num_history - renumbers the history.
+ * renum_history - renumbers the history.
  * @ads: Struct containing potential args.
+ *
  * Return: new count
  */
-int re_num_history(ads_t *ads)
+int renum_history(ads_t *ads)
 {
 	list_t *section = ads->history;
 	int i = 0;
