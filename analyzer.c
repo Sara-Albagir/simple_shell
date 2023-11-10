@@ -30,31 +30,31 @@ int _iscmd(ads_t *ads, char *filepath)
  */
 char *_chardup(char *strgpath, int srt, int stp)
 {
-	static char buff[1024];
+	static char buf[1024];
 	int j = 0, x = 0;
 
 	for (x = 0, j = srt; j < stp; j++)
 		if (strgpath[j] != ':')
-			buff[x++] = strgpath[j];
-	buff[x] = 0;
-	return (buff);
+			buf[x++] = strgpath[j];
+	buf[x] = 0;
+	return (buf);
 }
 
 /**
- * _pathfinder - finds this cmd in the PATH string
+ * _findpath - finds this cmd in the PATH string
  * @ads: parameter of type struct.
  * @strgpath: a string path.
  * @cmd: in question cmd.
  * Return: cmd or null.
  */
-char *_pathfinder(ads_t *ads, char *strgpath, char *cmd)
+char *_findpath(ads_t *ads, char *strgpath, char *cmd)
 {
-	int j = 0, ong_psn = 0;
-	char *filepath;
+	int j = 0, curr_pos = 0;
+	char *path;
 
 	if (!strgpath)
 		return (NULL);
-	if ((strg_len(cmd) > 2) && _haystarts(cmd, "./"))
+	if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
 	{
 		if (_iscmd(ads, cmd))
 			return (cmd);
@@ -63,19 +63,19 @@ char *_pathfinder(ads_t *ads, char *strgpath, char *cmd)
 	{
 		if (!strgpath[j] || strgpath[j] == ':')
 		{
-			filepath = _chardup(strgpath, ong_psn, j);
-			if (!*filepath)
-				cat_strg(filepath, cmd);
+			path = _chardup(strgpath, ong_psn, j);
+			if (!*path)
+				str_cat(path, cmd);
 			else
 			{
-				cat_strg(filepath, "/");
-				cat_strg(filepath, cmd);
+				cat_str(path, "/");
+				cat_str(path, cmd);
 			}
-			if (_iscmd(ads, filepath))
-				return (filepath);
+			if (_iscmd(ads, path))
+				return (path);
 			if (!strgpath[j])
 				break;
-			ong_psn = j;
+			curr_pos = j;
 		}
 		j++;
 	}

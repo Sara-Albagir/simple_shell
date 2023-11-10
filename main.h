@@ -117,10 +117,10 @@ int find_createdin(ads_t *);
 void _cmdfounder(ads_t *);
 void _cmdfork(ads_t *);
 
-/* _analyzer.c */
+/* analyzer.c */
 int _iscmd(ads_t *, char *);
 char *_chardup(char *, int, int);
-char *find_filepath(ads_t *, char *, char *);
+char *_findpath(ads_t *, char *, char *);
 
 /* loophsh.c */
 int loophsh(char **);
@@ -152,13 +152,13 @@ char *str_chr(char *, char);
 char **spltstr(char *, char *);
 char **spltstr2(char *, char);
 
-/* alloc_memo.c */
+/* memo_alloc.c */
 char *bits_memo(char *, char, unsigned int);
 void strg_free(char **);
 void *alloc_memo(void *, unsigned int, unsigned int);
 
-/* _memo.c */
-int bfree(void **);
+/* memo.c */
+int freeforever(void **);
 
 /* str_to_int.c */
 int _inter_active(ads_t *);
@@ -218,11 +218,11 @@ size_t str_printlist(const list_t *);
 int section_delete(list_t **, unsigned int);
 void list_free(list_t **);
 
-/* _lists1.c */
+/* shell_lists1.c */
 size_t list_len(const list_t *);
-char **listso_strings(list_t *);
+char **list_strings(list_t *);
 size_t pnt_list(const list_t *);
-list_t *section_begins_with(list_t *, char *, char);
+list_t *section_begins(list_t *, char *, char);
 ssize_t get_section_index(list_t *, list_t *);
 
 /* _funvars.c */

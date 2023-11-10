@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- * _lenlist - a function that tell the length of a list.
+ * list_len - a function that tell the length of a list.
  * @frst: parameter points to the leading section.
  * Return: an int.
  */
-size_t _lenlist(const list_t *frst)
+size_t list_len(const list_t *frst)
 {
 	size_t j = 0;
 
@@ -18,58 +18,56 @@ size_t _lenlist(const list_t *frst)
 }
 
 /**
- * _strgs_list - function gives an array.
+ * list_strings - function gives an array.
  * @lead: leading node pointer.
  * Return: upon success gives a string array.
  */
-char **_strgs_list(list_t *lead)
+char **list_strings(list_t *lead)
 {
 	list_t *section = lead;
-	size_t j = _lenlist(lead);
-	char **strgs;
+	size_t j = list_len(lead);
+	char **strs;
 	char *str;
-	size_t i;
 
 	if (!lead || !j)
 		return (NULL);
-	strgs = malloc(sizeof(char *) * (j + 1));
-	if (!strgs)
+	strs = malloc(sizeof(char *) * (j + 1));
+	if (!strs)
 		return (NULL);
 	for (j = 0; section = lead; section = section->next, j++)
 	{
-		str = malloc(strlen(section->str) + 1);
+		str = malloc(_strlen(section->str) + 1);
 		if (!str)
 		{
 			for (i = 0; i < j; i++)
-				free(strgs[i]);
-			free(strgs);
+				free(strs[i]);
+			free(strs);
 			return (NULL);
 		}
 
-		str = _cpy_strg(str, section->str);
-		strgs[j] = str;
+		str = _strspy(str, section->str);
+		strs[j] = str;
 	}
 	str[j] = '\0';
-	return str;
+	return (str);
 }
 
 
 /**
- * _listprint - a function that prints all list elements.
+ * pnt_list - a function that prints all list elements.
  * @frst: leading node pointer.
  * Return: an int.
  */
-size_t _listprint(const list_t *frst)
+size_t pnt_list(const list_t *frst)
 {
 	size_t j = 0;
 
 	while (frst)
 	{
-		inp_strg(convert_number(frst->num, 10, 0));
-		_printchar(':');
-		_printchar(' ');
-		inp_strg(frst->str ? frst->str : "(nil)");
-		inp_strg("\n");
+		_puts(convert_number(frst->num, 10, 0));
+		_putchar(':');
+		_putchar(' ');
+		_puts(frst->str ? frst->str : "(nil)");
 		frst = frst->next;
 		j++;
 	}
@@ -77,20 +75,20 @@ size_t _listprint(const list_t *frst)
 }
 
 /**
- * section_starter - a function that finds the string node starter.
+ * section_begins - a function that finds the string node starter.
  * @section: parameter points to the head.
- * @pref: in question string.
- * @ch: a character to find.
+ * @prefix: in question string.
+ * @c: a character to find.
  * Return: find the section or return null.
  */
-list_t *section_starter(list_t *section, char *pref, char ch)
+list_t *section_begins(list_t *section, char *prefix, char c)
 {
 	char *q = NULL;
 
 	while (section)
 	{
-		q = starts_with(section->str, pref);
-		if (q && ((ch == -1) || (*q == ch)))
+		q = starts_with(section->str, prefix);
+		if (q && ((c == -1) || (*q == c)))
 			return (section);
 		section = section->next;
 	}
@@ -98,12 +96,12 @@ list_t *section_starter(list_t *section, char *pref, char ch)
 }
 
 /**
- * section_indx - find the node index.
+ * get_section_index - find the node index.
  * @lead: leading list pointer.
  * @section: leading node pointer.
  * Return: find the indx or return -1.
  */
-ssize_t section_indx(list_t *lead, list_t *section)
+ssize_t get_section_index(list_t *lead, list_t *section)
 {
 	size_t j = 0;
 

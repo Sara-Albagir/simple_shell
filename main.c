@@ -2,11 +2,11 @@
 
 /**
  * main - our main function.
- * @arc: the count of arguments.
- * @arv: the vector of arguments.
+ * @ac: the count of arguments.
+ * @av: the vector of arguments.
  * Return: 0 or 1.
  */
-int main(int arc, char **arv)
+int main(int ac, char **av)
 {
 	ads_t ads[] = { ADS_INIT };
 	int vp = 2;
@@ -16,20 +16,20 @@ int main(int arc, char **arv)
 		: "=r" (vp)
 		: "r" (vp));
 
-	if (arc == 2)
+	if (ac == 2)
 	{
-		vp = open(arv[1], O_RDONLY);
+		vp = open(av[1], O_RDONLY);
 		if (vp == -1)
 		{
 			if (errno == EACCES)
 				exit(126);
 			if (errno == ENOENT)
 			{
-				_eputs(arv[0]);
-				_eputs(": 0: Can't open ");
-				_eputs(arv[1]);
-				_eputchar('\n');
-				_eputchar(BUFF_FLUSH);
+				ef_puts(av[0]);
+				ef_puts(": 0: Can't open ");
+				ef_puts(arv[1]);
+				ef_putchar('\n');
+				ef_putchar(BUFF_FLUSH);
 				exit(127);
 			}
 			return (EXIT_FAILURE);
@@ -38,6 +38,6 @@ int main(int arc, char **arv)
 	}
 	populate_env_list(ads);
 	read_history(ads);
-	_shellloop(ads, arv);
+	hsh(ads, av);
 	return (EXIT_SUCCESS);
 }

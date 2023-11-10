@@ -16,11 +16,11 @@ list_t *add_section(list_t **lead, const char *str, int num)
 	new_lead = malloc(sizeof(list_t));
 	if (!new_lead)
 		return (NULL);
-	_memset((void *)new_lead, 0, sizeof(list_t));
+	bits_memo((void *)new_lead, 0, sizeof(list_t));
 	new_lead->ind_num = num;
 	if (str)
 	{
-		new_lead->str = _strdup(str);
+		new_lead->str = strdup(str);
 		if (!new_lead->str)
 		{
 			free(new_lead);
@@ -39,7 +39,7 @@ list_t *add_section(list_t **lead, const char *str, int num)
  * @num: the index of the add_section_end.
  * Return: an int.
  */
-list_t *add_section_end(list_t **lead, const char *str, int ind_num)
+list_t *add_section_end(list_t **lead, const char *str, int num)
 {
 	list_t *new_section, *section;
 
@@ -50,7 +50,7 @@ list_t *add_section_end(list_t **lead, const char *str, int ind_num)
 	new_section = malloc(sizeof(list_t));
 	if (!new_section)
 		return (NULL);
-	_memset((void *)new_section, 0, sizeof(list_t));
+	bits_memo((void *)new_section, 0, sizeof(list_t));
 	new_section->num = num;
 	if (str)
 	{
@@ -83,8 +83,8 @@ size_t str_printlist(const list_t *frst)
 
 	while (frst)
 	{
-		_puts(frst->str ? frst->str : "(nil)");
-		_puts("\n");
+		puts(frst->str ? frst->str : "(nil)");
+		puts("\n");
 		frst = frst->next;
 		j++;
 	}
@@ -141,7 +141,7 @@ void list_free(list_t **lead_ptr)
 
 	if (!lead_ptr || !*lead_ptr)
 		return;
-	lead = *lead_poinads;
+	lead = *lead_ptr;
 	section = lead;
 	while (section)
 	{

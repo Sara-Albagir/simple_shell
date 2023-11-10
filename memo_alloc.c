@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- **bits_memo - hum function that locate bits to thememory.
- *@c: parameter points to the memory.
- *@cb: parameter byte.
- *@cn: number of byte.
- *Return: hum pointer.
+ * bits_memo - hum function that locate bits to thememory.
+ * @c: parameter points to the memory.
+ * @cb: parameter byte.
+ * @cn: num of byte.
+ * Return: um pointer.
  */
 char *bits_memo(char *c, char cb, unsigned int cn)
 {
@@ -22,13 +22,13 @@ char *bits_memo(char *c, char cb, unsigned int cn)
  */
 void strg_free(char **poinpoin)
 {
-	char **hum = poinpoin;
+	char **a = poinpoin;
 
 	if (!poinpoin)
 		return;
 	while (*poinpoin)
 		free(*poinpoin++);
-	free(hum);
+	free(a);
 }
 
 /**
