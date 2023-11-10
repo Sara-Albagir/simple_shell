@@ -36,6 +36,8 @@
 
 extern char **envir;
 
+char *starts_with(const char *str, const char *prefix);
+
 /**
  * struct liststr - singly linked list
  * @num: the number field
@@ -46,8 +48,9 @@ typedef struct liststr
 {
 	int num;
 	char *str;
+	int ind_num;
 	struct liststr *next;
-} lists;
+} list_t;
 
 /**
  * struct passads- It contains pseudo-args to pass into a function,
@@ -82,9 +85,9 @@ typedef struct passads
 	char *fname;
 	int err_num;
 	int count_lin_flag;
-	lists *env;
-	lists *alias;
-	lists *history;
+	list_t *env;
+	list_t *alias;
+	list_t *history;
 	char **envir;
 	int _changedenv;
 	int status;
@@ -126,7 +129,7 @@ char *find_filepath(ads_t *, char *, char *);
 int loophsh(char **);
 
 /* _errors.c */
-void puts(char *);
+void my_puts(char *);
 int _aputchar(char);
 int _putfd(char c, int fd);
 int putsfd(char *str, int fd);
@@ -135,7 +138,7 @@ int putsfd(char *str, int fd);
 int strg_len(char *);
 int _cmpstr(char *, char *);
 char *begins_with(const char *, const char *);
-char *_strconcat(char *, char *);
+char *_strconcat(char *, char *, int);
 
 /* _funrow_string1.c */
 char *_cpy_strg(char *, char *);
@@ -212,18 +215,18 @@ int history_list(ads_t *ads, char *buf, int linecount);
 int re_num_history(ads_t *ads);
 
 /* _shell_lists */
-lists *add_section(lists **, const char *, int);
-lists *_add_section_end(lists **, const char *, int);
-size_t _strg_listprint(const lists *);
-int _section_delete(lists **, unsigned int);
-void _listfree(lists **);
+list_t *add_section(list_t **, const char *, int);
+list_t *_add_section_end(list_t **, const char *, int);
+size_t _strg_listprint(const list_t *);
+int _section_delete(list_t **, unsigned int);
+void _listfree(list_t **);
 
 /* _lists1.c */
-size_t list_len(const lists *);
-char **listso_strings(lists *);
-size_t pnt_list(const lists *);
-lists *section_begins_with(lists *, char *, char);
-ssize_t get_section_index(lists *, lists *);
+size_t list_len(const list_t *);
+char **listso_strings(list_t *);
+size_t pnt_list(const list_t *);
+list_t *section_begins_with(list_t *, char *, char);
+ssize_t get_section_index(list_t *, list_t *);
 
 /* _funvars.c */
 int _ischain(ads_t *, char *, size_t *);

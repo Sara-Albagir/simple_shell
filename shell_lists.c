@@ -1,13 +1,12 @@
 #include "main.h"
-
 /**
  * _add_sectin - a function that adds a node.
  * @lead: points to the leading node.
- * @strg: string in question.
+ * @str: string in question.
  * @ind_num: the indx of the _add_section_end.
  * Return: an int.
  */
-list_t *_add_sectin(list_t **lead, const char *strg, int ind_num)
+list_t *_add_sectin(list_t **lead, const char *str, int ind_num)
 {
 	list_t *new_lead;
 
@@ -16,12 +15,12 @@ list_t *_add_sectin(list_t **lead, const char *strg, int ind_num)
 	new_lead = malloc(sizeof(list_t));
 	if (!new_lead)
 		return (NULL);
-	_memset((void *)new_lead, 0, sizeof(list_t));
+	memset((void *)new_lead, 0, sizeof(list_t));
 	new_lead->ind_num = ind_num;
-	if (strg)
+	if (str)
 	{
-		new_lead->strg = _strdup(strg);
-		if (!new_lead->strg)
+		new_lead->str = strdup(str);
+		if (!new_lead->str)
 		{
 			free(new_lead);
 			return (NULL);
@@ -35,11 +34,11 @@ list_t *_add_sectin(list_t **lead, const char *strg, int ind_num)
 /**
  * _add_section_end - a function that adds a _add_section_end at the end.
  * @lead: points to the leading _add_section_end.
- * @strg: string in question.
+ * @str: string in question.
  * @ind_num: the indx of the _add_section_end.
  * Return: an int.
  */
-list_t *_add_section_end(list_t **lead, const char *strg, int ind_num)
+list_t *_add_section_end(list_t **lead, const char *str, int ind_num)
 {
 	list_t *new_section, *section;
 
@@ -50,12 +49,12 @@ list_t *_add_section_end(list_t **lead, const char *strg, int ind_num)
 	new_section = malloc(sizeof(list_t));
 	if (!new_section)
 		return (NULL);
-	_memset((void *)new_section, 0, sizeof(list_t));
+	memset((void *)new_section, 0, sizeof(list_t));
 	new_section->ind_num = ind_num;
-	if (strg)
+	if (str)
 	{
-		new_section->strg = _strdup(strg);
-		if (!new_section->strg)
+		new_section->str = strdup(str);
+		if (!new_section->str)
 		{
 			free(new_section);
 			return (NULL);
@@ -83,8 +82,8 @@ size_t strg_listprint(const list_t *frst)
 
 	while (frst)
 	{
-		_puts(frst->strg ? frst->strg : "(nil)");
-		_puts("\n");
+		puts(frst->str ? frst->str : "(nil)");
+		puts("\n");
 		frst = frst->next;
 		j++;
 	}
@@ -109,7 +108,7 @@ int _section_delete(list_t **lead, unsigned int indx)
 	{
 		section = *lead;
 		*lead = (*lead)->next;
-		free(section->strg);
+		free(section->str);
 		free(section);
 		return (1);
 	}
@@ -119,7 +118,7 @@ int _section_delete(list_t **lead, unsigned int indx)
 		if (j == indx)
 		{
 			pre_section->next = section->next;
-			free(section->strg);
+			free(section->str);
 			free(section);
 			return (1);
 		}
@@ -146,7 +145,7 @@ void _listfree(list_t **lead_poinads)
 	while (section)
 	{
 		next_section = section->next;
-		free(section->strg);
+		free(section->str);
 		free(section);
 		section = next_section;
 	}

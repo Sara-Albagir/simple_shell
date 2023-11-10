@@ -25,31 +25,32 @@ size_t _lenlist(const list_t *frst)
 char **_strgs_list(list_t *lead)
 {
 	list_t *section = lead;
-	size_t j = _lenlist(lead), j;
+	size_t j = _lenlist(lead);
 	char **strgs;
-	char *strg;
+	char *str;
+	size_t i;
 
 	if (!lead || !j)
 		return (NULL);
 	strgs = malloc(sizeof(char *) * (j + 1));
 	if (!strgs)
 		return (NULL);
-	for (j = 0; section; section = section->next, j++)
+	for (j = 0; section = lead; section = section->next, j++)
 	{
-		strg = malloc(_strlen(section->strg) + 1);
-		if (!strg)
+		str = malloc(strlen(section->str) + 1);
+		if (!str)
 		{
-			for (j = 0; j < j; j++)
-				free(strgs[j]);
+			for (i = 0; i < j; i++)
+				free(strgs[i]);
 			free(strgs);
 			return (NULL);
 		}
 
-		strg = _cpy_strg(strg, section->strg);
-		strgs[j] = strg;
+		str = _cpy_strg(str, section->str);
+		strgs[j] = str;
 	}
-	strgs[j] = NULL;
-	return (strgs);
+	str[j] = '\0';
+	return str;
 }
 
 
@@ -67,7 +68,7 @@ size_t _listprint(const list_t *frst)
 		inp_strg(convert_number(frst->num, 10, 0));
 		_printchar(':');
 		_printchar(' ');
-		inp_strg(frst->strg ? frst->strg : "(nil)");
+		inp_strg(frst->str ? frst->str : "(nil)");
 		inp_strg("\n");
 		frst = frst->next;
 		j++;
@@ -88,7 +89,7 @@ list_t *section_starter(list_t *section, char *pref, char ch)
 
 	while (section)
 	{
-		q = starts_with(section->strg, pref);
+		q = starts_with(section->str, pref);
 		if (q && ((ch == -1) || (*q == ch)))
 			return (section);
 		section = section->next;
