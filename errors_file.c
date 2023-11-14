@@ -8,15 +8,15 @@
  */
 void albady_eputs(char *str)
 {
-    int i = 0;
+	int i = 0;
 
-    if (!str)
-        return;
-    while (str[i] != '\0')
-    {
-        albady_eputchar(str[i]);
-        i++;
-    }
+	if (!str)
+	return;
+	while (str[i] != '\0')
+	{
+	albady_eputchar(str[i]);
+	i++;
+	}
 }
 
 /**
@@ -24,21 +24,21 @@ void albady_eputs(char *str)
  * @c: The character to print
  *
  * Return: On success 1.
- *         On error, -1 is returned, and errno is set appropriately.
+ * On error, -1 is returned, and errno is set appropriately.
  */
 int albady_eputchar(char c)
 {
-    static int i;
-    static char buf[ALBADY_WRITE_BUF_SIZE];
+	static int i;
+	static char buf[ALBADY_WRITE_BUF_SIZE];
 
-    if (c == ALBADY_BUF_FLUSH || i >= ALBADY_WRITE_BUF_SIZE)
-    {
-        write(2, buf, i);
-        i = 0;
-    }
-    if (c != ALBADY_BUF_FLUSH)
-        buf[i++] = c;
-    return (1);
+	if (c == ALBADY_BUF_FLUSH || i >= ALBADY_WRITE_BUF_SIZE)
+	{
+	write(2, buf, i);
+	i = 0;
+	}
+	if (c != ALBADY_BUF_FLUSH)
+	buf[i++] = c;
+	return (1);
 }
 
 /**
@@ -47,21 +47,21 @@ int albady_eputchar(char c)
  * @fd: The file descriptor to write to
  *
  * Return: On success 1.
- *         On error, -1 is returned, and errno is set appropriately.
+ * On error, -1 is returned, and errno is set appropriately.
  */
 int albady_putfd(char c, int fd)
 {
-    static int i;
-    static char buf[ALBADY_WRITE_BUF_SIZE];
+	static int i;
+	static char buf[ALBADY_WRITE_BUF_SIZE];
 
-    if (c == ALBADY_BUF_FLUSH || i >= ALBADY_WRITE_BUF_SIZE)
-    {
-        write(fd, buf, i);
-        i = 0;
-    }
-    if (c != ALBADY_BUF_FLUSH)
-        buf[i++] = c;
-    return (1);
+	if (c == ALBADY_BUF_FLUSH || i >= ALBADY_WRITE_BUF_SIZE)
+	{
+	write(fd, buf, i);
+	i = 0;
+	}
+	if (c != ALBADY_BUF_FLUSH)
+	buf[i++] = c;
+	return (1);
 }
 
 /**
@@ -73,13 +73,13 @@ int albady_putfd(char c, int fd)
  */
 int albady_putsfd(char *str, int fd)
 {
-    int i = 0;
+	int i = 0;
 
-    if (!str)
-        return (0);
-    while (*str)
-    {
-        i += albady_putfd(*str++, fd);
-    }
-    return (i);
+	if (!str)
+	return (0);
+	while (*str)
+	{
+	i += albady_putfd(*str++, fd);
+	}
+	return (i);
 }
