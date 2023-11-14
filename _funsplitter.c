@@ -1,57 +1,50 @@
-#include "albady_shell.h"
+#include "albady_hell.h"
 
 /**
- * albady_strtow - splits a string into words.
- * Repeat delimiters are ignored
+ * albady_strtow - splits a string into words. Repeat delimiters are ignored
  * @str: the input string
- * @d: the delimiter string
+ * @d: the delimeter string
  * Return: a pointer to an array of strings, or NULL on failure
  */
+
 char **albady_strtow(char *str, char *d)
 {
 	int i, j, k, m, numwords = 0;
 	char **s;
 
 	if (str == NULL || str[0] == 0)
-	return (NULL);
-
+		return (NULL);
 	if (!d)
-	d = " ";
-
+		d = " ";
 	for (i = 0; str[i] != '\0'; i++)
-	if (!albady_is_delim(str[i], d) &&
-	(albady_is_delim(str[i + 1], d) || !str[i + 1]))
-	numwords++;
+		if (!albady_is_delim(str[i], d) &&
+		(albady_is_delim(str[i + 1], d) || !str[i + 1]))
+			numwords++;
 
 	if (numwords == 0)
-	return (NULL);
+		return (NULL);
 	s = malloc((1 + numwords) * sizeof(char *));
 	if (!s)
 		return (NULL);
 	for (i = 0, j = 0; j < numwords; j++)
 	{
-	while (albady_is_delim(str[i], d))
-	i++;
-
-	k = 0;
-	while (!albady_is_delim(str[i + k], d) &&
-	str[i + k])
-	k++;
-
-	s[j] = malloc((k + 1) * sizeof(char));
-	if (!s[j])
-	{
-		for (k = 0; k < j; k++)
-			free(s[k]);
-		free(s);
-		return (NULL);
+		while (albady_is_delim(str[i], d))
+			i++;
+		k = 0;
+		while (!albady_is_delim(str[i + k], d) && str[i + k])
+			k++;
+		s[j] = malloc((k + 1) * sizeof(char));
+		if (!s[j])
+		{
+			for (k = 0; k < j; k++)
+				free(s[k]);
+			free(s);
+			return (NULL);
+		}
+		for (m = 0; m < k; m++)
+			s[j][m] = str[i++];
+		s[j][m] = 0;
 	}
-
-	for (m = 0; m < k; m++)
-		s[j][m] = str[i++];
-	s[j][m] = 0;
-	}
-
 	s[j] = NULL;
 	return (s);
 }
@@ -59,9 +52,8 @@ char **albady_strtow(char *str, char *d)
 /**
  * albady_strtow2 - splits a string into words
  * @str: the input string
- * @d: the delimiter
- * Return: a pointer to an array of strings,
- * or NULL on failure
+ * @d: the delimeter
+ * Return: a pointer to an array of strings, or NULL on failure
  */
 char **albady_strtow2(char *str, char d)
 {
@@ -69,43 +61,35 @@ char **albady_strtow2(char *str, char d)
 	char **s;
 
 	if (str == NULL || str[0] == 0)
-	return (NULL);
-
+		return (NULL);
 	for (i = 0; str[i] != '\0'; i++)
-	if ((str[i] != d && str[i + 1] == d) ||
-	(str[i] != d && !str[i + 1]) || str[i + 1] == d)
-	numwords++;
-
+		if ((str[i] != d && str[i + 1] == d) ||
+		    (str[i] != d && !str[i + 1]) || str[i + 1] == d)
+			numwords++;
 	if (numwords == 0)
-	return (NULL);
-
+		return (NULL);
 	s = malloc((1 + numwords) * sizeof(char *));
 	if (!s)
-	return (NULL);
-
+		return (NULL);
 	for (i = 0, j = 0; j < numwords; j++)
 	{
-	while (str[i] == d && str[i] != d)
-	i++;
-
-	k = 0;
-	while (str[i + k] != d && str[i + k] && str[i + k] != d)
-	k++;
-
-	s[j] = malloc((k + 1) * sizeof(char));
-	if (!s[j])
-	{
-	for (k = 0; k < j; k++)
-	free(s[k]);
-	free(s);
-	return (NULL);
+		while (str[i] == d && str[i] != d)
+			i++;
+		k = 0;
+		while (str[i + k] != d && str[i + k] && str[i + k] != d)
+			k++;
+		s[j] = malloc((k + 1) * sizeof(char));
+		if (!s[j])
+		{
+			for (k = 0; k < j; k++)
+				free(s[k]);
+			free(s);
+			return (NULL);
+		}
+		for (m = 0; m < k; m++)
+			s[j][m] = str[i++];
+		s[j][m] = 0;
 	}
-
-	for (m = 0; m < k; m++)
-	s[j][m] = str[i++];
-	s[j][m] = 0;
-	}
-
 	s[j] = NULL;
 	return (s);
 }
