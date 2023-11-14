@@ -1,6 +1,8 @@
 #ifndef _ALBADY_SHELL_H_
 #define _ALBADY_SHELL_H_
 
+#define BUF_FLUSH 1
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -11,6 +13,8 @@
 #include <limits.h>
 #include <fcntl.h>
 #include <errno.h>
+
+#include <stddef.h>
 
 /* for read/write buffers */
 #define ALBADY_READ_BUF_SIZE 1024

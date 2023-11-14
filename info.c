@@ -27,7 +27,8 @@ void albady_set_info(albady_info_t *info, char **av)
 	info->argv = albady_strtow(info->arg, " \t");
 	if (!info->argv)
 	{
-	info->argv = albady_malloc(sizeof(char *) * 2);
+	info->argv = albady_realloc(info->argv,
+	sizeof(char *) * 2, sizeof(char *) * 2);
 	if (info->argv)
 	{
 	info->argv[0] = albady_strdup(info->arg);
@@ -56,18 +57,18 @@ void albady_free_info(albady_info_t *info, int all)
 	if (all)
 	{
 	if (!info->cmd_buf)
-	albady_free(info->arg);
+	albady_ffree((void *)info->arg);
 	if (info->env)
 	albady_free_list(&(info->env));
 	if (info->history)
 	albady_free_list(&(info->history));
 	if (info->alias)
-	albady_free_list(&(info->alias));
+		albady_free_list(&(info->alias));
 	albady_ffree(info->environ);
 	info->environ = NULL;
 	albady_bfree((void **)info->cmd_buf);
 	if (info->readfd > 2)
-	close(info->readfd);
-	_putchar(ALBADY_BUF_FLUSH);
+		close(info->readfd);
+	putchar(ALBADY_BUF_FLUSH);
 	}
 }

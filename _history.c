@@ -1,5 +1,5 @@
 #include "albady_shell.h"
-
+#include <stdlib.h>
 /**
  * albady_get_history_file - gets the history file
  * @info: parameter struct
@@ -13,7 +13,7 @@ char *albady_get_history_file(albady_info_t *info)
 	dir = albady_getenv(info, "HOME=");
 	if (!dir)
 	return (NULL);
-	buf = albady_malloc(sizeof(char) * (albady_strlen(dir) +
+	buf = albady_realloc(sizeof(char) * (albady_strlen(dir) +
 	albady_strlen(ALBADY_HIST_FILE) + 2));
 	if (!buf)
 	return (NULL);
@@ -40,7 +40,7 @@ int albady_write_history(albady_info_t *info)
 	return (-1);
 
 	fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
-	albady_free(filename);
+	albady_bfree(filename);
 	if (fd == -1)
 	return (-1);
 	for (node = info->history; node; node = node->next)
@@ -70,14 +70,14 @@ int albady_read_history(albady_info_t *info)
 	return (0);
 
 	fd = open(filename, O_RDONLY);
-	albady_free(filename);
+	albady_bfree(filename);
 	if (fd == -1)
 	return (0);
 	if (!fstat(fd, &st))
 	fsize = st.st_size;
 	if (fsize < 2)
 	return (0);
-	buf = albady_malloc(sizeof(char) * (fsize + 1));
+	buf = albady_realloc(sizeof(char) * (fsize + 1));
 	if (!buf)
 	return (0);
 	rdlen = read(fd, buf, fsize);

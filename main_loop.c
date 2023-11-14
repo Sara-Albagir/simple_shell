@@ -141,7 +141,7 @@ void albady_fork_cmd(albady_info_t *info)
 	if (execve(info->path, info->argv, albady_get_environ(info)) == -1)
 	{
 	albady_free_info(info, 1);
-	if (errno == EACCES)
+	if (errno == EACCES) {
 		exit(126);
 		exit(1);
 	}
@@ -157,4 +157,6 @@ void albady_fork_cmd(albady_info_t *info)
 		albady_print_error(info, "Permission denied\n");
 	}
 	}
+
+}
 }
