@@ -1,74 +1,74 @@
-#include "main.h"
+#include "albady_shell.h"
 
 /**
- * clear_ads - initializes ads_t struct.
- * @ads: The struct address.
+ * albady_clear_info - initializes albady_info_t struct
+ * @info: struct address
  */
-void clear_ads(ads_t *ads)
+void albady_clear_info(albady_info_t *info)
 {
-	ads->arg = NULL;
-	ads->argv = NULL;
-	ads->path = NULL;
-	ads->argc = 0;
+    info->arg = NULL;
+    albady_ffree(info->argv);
+    info->argv = NULL;
+    info->path = NULL;
+    info->argc = 0;
 }
 
 /**
- * set_ads - initializes ads_t struct.
- * @ads: The struct address.
- * @av: The argument vectors.
+ * albady_set_info - initializes albady_info_t struct
+ * @info: struct address
+ * @av: argument vector
  */
-void set_ads(ads_t *ads, char **av)
+void albady_set_info(albady_info_t *info, char **av)
 {
-	int i = 0;
+    int i = 0;
 
-	ads->fname = av[0];
-	if (ads->arg)
-	{
-		ads->argv = strtow(ads->arg, " \t");
-		if (!ads->argv)
-		{
+    info->fname = av[0];
+    if (info->arg)
+    {
+        info->argv = albady_strtow(info->arg, " \t");
+        if (!info->argv)
+        {
+            info->argv = albady_malloc(sizeof(char *) * 2);
+            if (info->argv)
+            {
+                info->argv[0] = albady_strdup(info->arg);
+                info->argv[1] = NULL;
+            }
+        }
+        for (i = 0; info->argv && info->argv[i]; i++)
+            ;
+        info->argc = i;
 
-			ads->arg = malloc(sizeof(char *) * 2);
-			if (ads->argv)
-			{
-				ads->argv[0] = _strdup(ads->arg);
-				ads->argv[1] = NULL;
-			}
-		}
-		for (i = 0; ads->argv && ads->argv[i]; i++)
-			;
-		ads->argc = i;
-
-		replace_alias(ads);
-		replace_vars(ads);
-	}
+        albady_replace_alias(info);
+        albady_replace_vars(info);
+    }
 }
 
 /**
- * free_ads - frees ads_t struct fields.
- * @ads: The struct address.
- * @all: is true if freeing fields.
+ * albady_free_info - frees albady_info_t struct fields
+ * @info: struct address
+ * @all: true if freeing all fields
  */
-void free_ads(ads_t *ads, int all)
+void albady_free_info(albady_info_t *info, int all)
 {
-	ffree(ads->argv);
-	ads->argv = NULL;
-	ads->path = NULL;
-	if (all)
-	{
-		if (!ads->cmd_buf)
-			free(ads->arg);
-		if (ads->env)
-			free_list(&(ads->env));
-		if (ads->history)
-			free_list(&(ads->history));
-		if (ads->alias)
-			free_list(&(ads->alias));
-		ffree(ads->envir);
-			ads->envir = NULL;
-		bfree((void **)ads->cmd_buf);
-		if (ads->readfd > 2)
-			close(ads->readfd);
-		_putchar(BUF_FLUSH);
-	}
+    albady_ffree(info->argv);
+    info->argv = NULL;
+    info->path = NULL;
+    if (all)
+    {
+        if (!info->cmd_buf)
+            albady_free(info->arg);
+        if (info->env)
+            albady_free_list(&(info->env));
+        if (info->history)
+            albady_free_list(&(info->history));
+        if (info->alias)
+            albady_free_list(&(info->alias));
+        albady_ffree(info->environ);
+        info->environ = NULL;
+        albady_bfree((void **)info->cmd_buf);
+        if (info->readfd > 2)
+            close(info->readfd);
+        _putchar(ALBADY_BUF_FLUSH);
+    }
 }

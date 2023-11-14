@@ -1,93 +1,109 @@
-#include "main.h"
+#include "albady_shell.h"
 
 /**
- * **spltstr - dvides a given string into words.
- * @strg: a given string.
- * @dlm: a string delemeter.
- * Return: null or points to array.
+ * albady_strtow - splits a string into words. Repeat delimiters are ignored
+ * @str: the input string
+ * @d: the delimiter string
+ * Return: a pointer to an array of strings, or NULL on failure
  */
-
-char **spltstr(char *strg, char *dlm)
+char **albady_strtow(char *str, char *d)
 {
-	int j, y, x, z, wdsnumb = 0;
-	char **c;
+    int i, j, k, m, numwords = 0;
+    char **s;
 
-	if (strg == NULL || strg[0] == 0)
-		return (NULL);
-	if (!dlm)
-		dlm = " ";
-	for (j = 0; strg[j] != '\0'; j++)
-		if (!_isdlm(strg[j], dlm) && (_isdlm(strg[j + 1], dlm) || !strg[j + 1]))
-			wdsnumb++;
+    if (str == NULL || str[0] == 0)
+        return (NULL);
 
-	if (wdsnumb == 0)
-		return (NULL);
-	c = malloc((1 + wdsnumb) * sizeof(char *));
-	if (!c)
-		return (NULL);
-	for (j = 0, y = 0; y < wdsnumb; y++)
-	{
-		while (_isdlm(strg[j], dlm))
-			j++;
-		x = 0;
-		while (!_isdlm(strg[j + x], dlm) && strg[j + x])
-			x++;
-		c[y] = malloc((x + 1) * sizeof(char));
-		if (!c[y])
-		{
-			for (x = 0; x < y; x++)
-				free(c[x]);
-			free(c);
-			return (NULL);
-		}
-		for (z = 0; z < x; z++)
-			c[y][z] = strg[j++];
-		c[y][z] = 0;
-	}
-	c[y] = NULL;
-	return (c);
+    if (!d)
+        d = " ";
+
+    for (i = 0; str[i] != '\0'; i++)
+        if (!albady_is_delim(str[i], d) && (albady_is_delim(str[i + 1], d) || !str[i + 1]))
+            numwords++;
+
+    if (numwords == 0)
+        return (NULL);
+
+    s = malloc((1 + numwords) * sizeof(char *));
+    if (!s)
+        return (NULL);
+
+    for (i = 0, j = 0; j < numwords; j++)
+    {
+        while (albady_is_delim(str[i], d))
+            i++;
+
+        k = 0;
+        while (!albady_is_delim(str[i + k], d) && str[i + k])
+            k++;
+
+        s[j] = malloc((k + 1) * sizeof(char));
+        if (!s[j])
+        {
+            for (k = 0; k < j; k++)
+                free(s[k]);
+            free(s);
+            return (NULL);
+        }
+
+        for (m = 0; m < k; m++)
+            s[j][m] = str[i++];
+        s[j][m] = 0;
+    }
+
+    s[j] = NULL;
+    return (s);
 }
 
 /**
- * **spltstr1 - dvides a given string into words
- * @strg: a given string.
- * @dlm: a string delemeter
- * Return: null or points to array.
+ * albady_strtow2 - splits a string into words
+ * @str: the input string
+ * @d: the delimiter
+ * Return: a pointer to an array of strings, or NULL on failure
  */
-char **spltstr1(char *strg, char dlm)
+char **albady_strtow2(char *str, char d)
 {
-	int j, y, x, z, wdsnumb = 0;
-	char **c;
+    int i, j, k, m, numwords = 0;
+    char **s;
 
-	if (strg == NULL || strg[0] == 0)
-		return (NULL);
-	for (j = 0; strg[j] != '\0'; j++)
-		if ((strg[j] != dlm && strg[j + 1] == dlm) ||
-		    (strg[j] != dlm && !strg[j + 1]) || strg[j + 1] == dlm)
-			wdsnumb++;
-	if (wdsnumb == 0)
-		return (NULL);
-	c = malloc((1 + wdsnumb) * sizeof(char *));
-	if (!c)
-		return (NULL);
-	for (j = 0, y = 0; y < wdsnumb; y++)
-	{
-		while (strg[j] == dlm && strg[j] != dlm)
-			j++;
-		x = 0;
-		while (strg[j + x] != dlm && strg[j + x] && strg[j + x] != dlm)
-			x++;
-		c[y] = malloc((x + 1) * sizeof(char));
-		if (!c[y])
-		{
-			for (x = 0; x < y; x++)
-				free(c[x]);
-			free(c);
-			return (NULL);
-		}
-		for (z = 0; z < x; z++)
-			c[y][z] = strg[j++];
-		c[y][z] = 0;
-	}
-	c[y] = NULL;
-	return (c);
+    if (str == NULL || str[0] == 0)
+        return (NULL);
+
+    for (i = 0; str[i] != '\0'; i++)
+        if ((str[i] != d && str[i + 1] == d) ||
+            (str[i] != d && !str[i + 1]) || str[i + 1] == d)
+            numwords++;
+
+    if (numwords == 0)
+        return (NULL);
+
+    s = malloc((1 + numwords) * sizeof(char *));
+    if (!s)
+        return (NULL);
+
+    for (i = 0, j = 0; j < numwords; j++)
+    {
+        while (str[i] == d && str[i] != d)
+            i++;
+
+        k = 0;
+        while (str[i + k] != d && str[i + k] && str[i + k] != d)
+            k++;
+
+        s[j] = malloc((k + 1) * sizeof(char));
+        if (!s[j])
+        {
+            for (k = 0; k < j; k++)
+                free(s[k]);
+            free(s);
+            return (NULL);
+        }
+
+        for (m = 0; m < k; m++)
+            s[j][m] = str[i++];
+        s[j][m] = 0;
+    }
+
+    s[j] = NULL;
+    return (s);
+}

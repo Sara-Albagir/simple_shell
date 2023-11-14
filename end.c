@@ -1,74 +1,75 @@
-#include "main.h"
+#include "albady_shell.h"
 
 /**
- * str_cpy - copies a string.
- * @destin: Destination of astring to be copied to.
- * @src: The source of string.
- * @n: amt of chara to be copied.
- * Return: concatenated string.
+ * albady_strncpy - copies a string
+ * @dest: the destination string to be copied to
+ * @src: the source string
+ * @n: the amount of characters to be copied
+ * Return: the concatenated string
  */
-char *str_cpy(char *destin, char *src, int n)
+char *albady_strncpy(char *dest, char *src, int n)
 {
-	int i, o;
-	char *s = destin;
+    int i, j;
+    char *s = dest;
 
-	i = 0;
-	while (src[i] != '\0' && i < n - 1)
-	{
-		destin[i] = src[i];
-		i++;
-	}
-	if (i < n)
-	{
-		o = i;
-		while (o < n)
-		{
-			destin[o] = '\0';
-			o++;
-		}
-	}
-	return (s);
+    i = 0;
+    while (src[i] != '\0' && i < n - 1)
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    if (i < n)
+    {
+        j = i;
+        while (j < n)
+        {
+            dest[j] = '\0';
+            j++;
+        }
+    }
+    return (s);
 }
 
 /**
- * str_cat - Concatenates two strings.
- * @destin: The first string.
- * @src: The second string.
- * @n: The amt of bytes to be maximally used.
- * Return: concatenated string.
+ * albady_strncat - concatenates two strings
+ * @dest: the first string
+ * @src: the second string
+ * @n: the amount of bytes to be maximally used
+ * Return: the concatenated string
  */
-char *str_cat(char *destin, char *src, int n)
+char *albady_strncat(char *dest, char *src, int n)
 {
-	int i, o;
-	char *s = destin;
+    int i, j;
+    char *s = dest;
 
-	i = 0;
-	o = 0;
-	while (destin[i] != '\0')
-		i++;
-	while (src[o] != '\0' && o < n)
-	{
-		destin[i] = src[o];
-		i++;
-		o++;
-	}
-	if (o < n)
-		destin[i] = '\0';
-	return (s);
+    i = 0;
+    j = 0;
+    while (dest[i] != '\0')
+        i++;
+    while (src[j] != '\0' && j < n)
+    {
+        dest[i] = src[j];
+        i++;
+        j++;
+    }
+    if (j < n)
+        dest[i] = '\0';
+    return (s);
 }
 
 /**
- * str_chr - locates chara in a str.
- * @s: The string to be parsed.
- * @c: Character to look for
- * Return: (s) pointer to the memory area s.
+ * albady_strchr - locates a character in a string
+ * @s: the string to be parsed
+ * @c: the character to look for
+ * Return: (s) a pointer to the memory area s
  */
-char *str_chr(char *s, char c)
+char *albady_strchr(char *s, char c)
 {
-	do {
-		if (*s == c)
-			return (s);
-	} while (*s++ != '\0');
+    do
+    {
+        if (*s == c)
+            return (s);
+    } while (*s++ != '\0');
 
-	return (NULL);
+    return (NULL);
 }

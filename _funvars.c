@@ -1,149 +1,154 @@
-#include "main.h"
+#include "albady_shell.h"
 
 /**
- * _ischain - a function that check wether the char is a delometer one
- * @ads: a parameter of type struct
- * @buff: character buf
- * @q: a buf address
- * Return: 1 or 0
+ * albady_is_chain - test if current char in buffer is a chain delimeter
+ * @info: the parameter struct
+ * @buf: the char buffer
+ * @p: address of current position in buf
+ *
+ * Return: 1 if chain delimeter, 0 otherwise
  */
-int _ischain(ads_t *ads, char *buff, size_t *q)
+int albady_is_chain(info_t *info, char *buf, size_t *p)
 {
-	size_t y = *q;
+	size_t j = *p;
 
-	if (buff[y] == '|' && buff[y + 1] == '|')
+	if (buf[j] == '|' && buf[j + 1] == '|')
 	{
-		buff[y] = 0;
-		y++;
-		ads->cmd_buff_type = CMD_OR;
+		buf[j] = 0;
+		j++;
+		info->cmd_buf_type = CMD_OR;
 	}
-	else if (buff[y] == '&' && buff[y + 1] == '&')
+	else if (buf[j] == '&' && buf[j + 1] == '&')
 	{
-		buff[y] = 0;
-		y++;
-		ads->cmd_buff_type = CMD_AND;
+		buf[j] = 0;
+		j++;
+		info->cmd_buf_type = CMD_AND;
 	}
-	else if (buff[y] == ';')
+	else if (buf[j] == ';') /* found end of this command */
 	{
-		buff[y] = 0;
-		ads->cmd_buff_type = CMD_CHAIN;
+		buf[j] = 0; /* replace semicolon with null */
+		info->cmd_buf_type = CMD_CHAIN;
 	}
 	else
 		return (0);
-	*q = y;
+	*p = j;
 	return (1);
 }
 
 /**
- * _checkchain - reach statuss to confirm continuing.
- * @ads: a parameter of type struct.
- * @buff: character buf.
- * @q: a buf address.
- * @j: starting point.
- * @ln: represent the buf length.
- * Return: none.
+ * albady_check_chain - checks we should continue chaining based on last status
+ * @info: the parameter struct
+ * @buf: the char buffer
+ * @p: address of current position in buf
+ * @i: starting position in buf
+ * @len: length of buf
+ *
+ * Return: Void
  */
-void _checkchain(ads_t *ads, char *buff, size_t *q, size_t j, size_t ln)
+void albady_check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 {
-	size_t y = *q;
+	size_t j = *p;
 
-	if (ads->cmd_buff_type == CMD_AND)
+	if (info->cmd_buf_type == CMD_AND)
 	{
-		if (ads->statuss)
+		if (info->status)
 		{
-			buff[j] = 0;
-			y = ln;
+			buf[i] = 0;
+			j = len;
 		}
 	}
-	if (ads->cmd_buff_type == CMD_OR)
+	if (info->cmd_buf_type == CMD_OR)
 	{
-		if (!ads->statuss)
+		if (!info->status)
 		{
-			buff[j] = 0;
-			y = ln;
+			buf[i] = 0;
+			j = len;
 		}
 	}
 
-	*q = y;
+	*p = j;
 }
 
 /**
- * _alias_rep - reach to the string and change alias
- * @ads: a parameter of type struct
- * Return: 1 or 0.
+ * albady_replace_alias - replaces an aliases in the tokenized string
+ * @info: the parameter struct
+ *
+ * Return: 1 if replaced, 0 otherwise
  */
-int _alias_rep(info_t *ads)
+int albady_replace_alias(info_t *info)
 {
-	int j;
-	list_t *section;
-	char *q;
+	int i;
+	list_t *node;
+	char *p;
 
-	for (j = 0; j < 10; j++)
+	for (i = 0; i < 10; i++)
 	{
-		section = section_starts_with(ads->alias, ads->argo[0], '=');
-		if (!section)
+		node = node_starts_with(info->alias, info->argv[0], '=');
+		if (!node)
 			return (0);
-		free(ads->argo[0]);
-		q = _strchr(section->str, '=');
-		if (!q)
+		free(info->argv[0]);
+		p = _strchr(node->str, '=');
+		if (!p)
 			return (0);
-		q = dup_strg(q + 1);
-		if (!q)
+		p = _strdup(p + 1);
+		if (!p)
 			return (0);
-		ads->argo[0] = q;
+		info->argv[0] = p;
 	}
 	return (1);
 }
 
 /**
- * _vars_rep - reach to the string and replace vars.
- * @ads: a parameter of type struct
- * Return: 1 or 0.
+ * albady_replace_vars - replaces vars in the tokenized string
+ * @info: the parameter struct
+ *
+ * Return: 1 if replaced, 0 otherwise
  */
-int _vars_rep(ads_t *ads)
+int albady_replace_vars(info_t *info)
 {
-	int j = 0;
-	list_t *section;
+	int i = 0;
+	list_t *node;
 
-	for (j = 0; ads->argo[j]; j++)
+	for (i = 0; info->argv[i]; i++)
 	{
-		if (ads->argo[j][0] != '$' || !ads->argo[j][1])
+		if (info->argv[i][0] != '$' || !info->argv[i][1])
 			continue;
 
-		if (!cmp_strg(ads->argo[j], "$?"))
+		if (!_strcmp(info->argv[i], "$?"))
 		{
-			_string_rep(&(ads->argo[j]),
-				dup_strg(convert_number(ads->statuss, 10, 0)));
+			replace_string(&(info->argv[i]),
+				_strdup(convert_number(info->status, 10, 0)));
 			continue;
 		}
-		if (!cmp_strg(ads->argo[j], "$$"))
+		if (!_strcmp(info->argv[i], "$$"))
 		{
-			_string_rep(&(ads->argo[j]),
-				dup_strg(convert_number(getpid(), 10, 0)));
+			replace_string(&(info->argv[i]),
+				_strdup(convert_number(getpid(), 10, 0)));
 			continue;
 		}
-		section = section_starter(ads->env, &ads->argo[j][1], '=');
-		if (section)
+		node = node_starts_with(info->env, &info->argv[i][1], '=');
+		if (node)
 		{
-			_string_rep(&(ads->argo[j]),
-				dup_strg(_strchr(section->str, '=') + 1));
+			replace_string(&(info->argv[i]),
+				_strdup(_strchr(node->str, '=') + 1));
 			continue;
 		}
-		_string_rep(&ads->argo[j], dup_strg(""));
+		replace_string(&info->argv[i], _strdup(""));
 
 	}
 	return (0);
 }
 
 /**
- * _string_rep - change the string.
- * @pre: first string address.
- * @post: modefied string.
- * Return: 0 or 1.
+ * albady_replace_string - replaces string
+ * @old: address of old string
+ * @new: new string
+ *
+ * Return: 1 if replaced, 0 otherwise
  */
-int _string_rep(char **pre, char *post)
+int albady_replace_string(char **old, char *new)
 {
-	free(*pre);
-	*pre = post;
+	free(*old);
+	*old = new;
 	return (1);
 }

@@ -1,71 +1,75 @@
-#include "main.h"
+#include "albady_shell.h"
 
 /**
- * len_strg - tell the strings length.
- * @c: string in question.
- * Return: an int.
+ * albady_strlen - custom implementation of strlen function
+ * @s: the string whose length to check
+ *
+ * Return: integer length of the string
  */
-int len_strg(char *c)
+int albady_strlen(char *s)
 {
-	int j = 0;
+    int i = 0;
 
-	if (!c)
-		return (0);
+    if (!s)
+        return (0);
 
-	while (*c++)
-		j++;
-	return (j);
+    while (*s++)
+        i++;
+    return (i);
 }
 
 /**
- * cmp_strg - compares 2 strings.
- * @c1: pre string.
- * @c2: post string.
- * Return: - or +.
+ * albady_strcmp - custom implementation of strcmp function
+ * @s1: the first string
+ * @s2: the second string
+ *
+ * Return: negative if s1 < s2, positive if s1 > s2, zero if s1 == s2
  */
-int cmp_strg(char *c1, char *c2)
+int albady_strcmp(char *s1, char *s2)
 {
-	while (*c1 && *c2)
-	{
-		if (*c1 != *c2)
-			return (*c1 - *c2);
-		c1++;
-		c2++;
-	}
-	if (*c1 == *c2)
-		return (0);
-	else
-		return (*c1 < *c2 ? -1 : 1);
+    while (*s1 && *s2)
+    {
+        if (*s1 != *s2)
+            return (*s1 - *s2);
+        s1++;
+        s2++;
+    }
+    if (*s1 == *s2)
+        return (0);
+    else
+        return (*s1 < *s2 ? -1 : 1);
 }
 
 /**
- * _haystarts - test for the haystack.
- * @strstack: in question string.
- * @ndl: in questin sub string
- * Return: null or an address.
+ * albady_starts_with - checks if the needle starts with the haystack
+ * @haystack: string to search
+ * @needle: the substring to find
+ *
+ * Return: address of the next char of haystack or NULL
  */
-char *_haystarts(const char *strstack, const char *ndl)
+char *albady_starts_with(const char *haystack, const char *needle)
 {
-	while (*ndl)
-		if (*ndl++ != *strstack++)
-			return (NULL);
-	return ((char *)strstack);
+    while (*needle)
+        if (*needle++ != *haystack++)
+            return (NULL);
+    return ((char *)haystack);
 }
 
 /**
- * cat_strg - string concatenator.
- * @dbuf: final buffer.
- * @sbuf: original buffer.
- * Return: final buffer pointer.
+ * albady_strcat - custom implementation of strcat function
+ * @dest: the destination buffer
+ * @src: the source buffer
+ *
+ * Return: pointer to the destination buffer
  */
-char *cat_strg(char *dbuf, char *sbuf)
+char *albady_strcat(char *dest, char *src)
 {
-	char *fin = dbuf;
+    char *ret = dest;
 
-	while (*dbuf)
-		dbuf++;
-	while (*sbuf)
-		*dbuf++ = *sbuf++;
-	*dbuf = *sbuf;
-	return (fin);
+    while (*dest)
+        dest++;
+    while (*src)
+        *dest++ = *src++;
+    *dest = *src;
+    return ret;
 }

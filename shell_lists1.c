@@ -1,116 +1,121 @@
-#include "main.h"
+#include "albady_shell.h"
 
 /**
- * list_len - a function that tell the length of a list.
- * @frst: parameter points to the leading section.
- * Return: an int.
+ * albady_list_len - determines length of linked list
+ * @h: pointer to first node
+ *
+ * Return: size of list
  */
-size_t list_len(const list_t *frst)
+size_t albady_list_len(const albady_list_t *h)
 {
-	size_t j = 0;
+    size_t i = 0;
 
-	while (frst)
-	{
-		frst = frst->next;
-		j++;
-	}
-	return (j);
+    while (h)
+    {
+        h = h->next;
+        i++;
+    }
+    return (i);
 }
 
 /**
- * list_strings - function gives an array.
- * @lead: leading node pointer.
- * Return: upon success gives a string array.
+ * albady_list_to_strings - returns an array of strings of the list->str
+ * @head: pointer to first node
+ *
+ * Return: array of strings
  */
-char **list_strings(list_t *lead)
+char **albady_list_to_strings(albady_list_t *head)
 {
-	list_t *section = lead;
-	size_t j = list_len(lead);
-	char **strs;
-	char *str;
+    albady_list_t *node = head;
+    size_t i = albady_list_len(head), j;
+    char **strs;
+    char *str;
 
-	if (!lead || !j)
-		return (NULL);
-	strs = malloc(sizeof(char *) * (j + 1));
-	if (!strs)
-		return (NULL);
-	for (j = 0; section = lead; section = section->next, j++)
-	{
-		str = malloc(_strlen(section->str) + 1);
-		if (!str)
-		{
-			for (i = 0; i < j; i++)
-				free(strs[i]);
-			free(strs);
-			return (NULL);
-		}
+    if (!head || !i)
+        return (NULL);
+    strs = malloc(sizeof(char *) * (i + 1));
+    if (!strs)
+        return (NULL);
+    for (i = 0; node; node = node->next, i++)
+    {
+        str = malloc(albady_strlen(node->str) + 1);
+        if (!str)
+        {
+            for (j = 0; j < i; j++)
+                free(strs[j]);
+            free(strs);
+            return (NULL);
+        }
 
-		str = _strspy(str, section->str);
-		strs[j] = str;
-	}
-	str[j] = '\0';
-	return (str);
-}
-
-
-/**
- * pnt_list - a function that prints all list elements.
- * @frst: leading node pointer.
- * Return: an int.
- */
-size_t pnt_list(const list_t *frst)
-{
-	size_t j = 0;
-
-	while (frst)
-	{
-		_puts(convert_number(frst->num, 10, 0));
-		_putchar(':');
-		_putchar(' ');
-		_puts(frst->str ? frst->str : "(nil)");
-		frst = frst->next;
-		j++;
-	}
-	return (j);
+        str = albady_strcpy(str, node->str);
+        strs[i] = str;
+    }
+    strs[i] = NULL;
+    return (strs);
 }
 
 /**
- * section_begins - a function that finds the string node starter.
- * @section: parameter points to the head.
- * @prefix: in question string.
- * @c: a character to find.
- * Return: find the section or return null.
+ * albady_print_list - prints all elements of an albady_list_t linked list
+ * @h: pointer to first node
+ *
+ * Return: size of list
  */
-list_t *section_begins(list_t *section, char *prefix, char c)
+size_t albady_print_list(const albady_list_t *h)
 {
-	char *q = NULL;
+    size_t i = 0;
 
-	while (section)
-	{
-		q = starts_with(section->str, prefix);
-		if (q && ((c == -1) || (*q == c)))
-			return (section);
-		section = section->next;
-	}
-	return (NULL);
+    while (h)
+    {
+        albady_puts(albady_convert_number(h->num, 10, 0));
+        albady_putchar(':');
+        albady_putchar(' ');
+        albady_puts(h->str ? h->str : "(nil)");
+        albady_puts("\n");
+        h = h->next;
+        i++;
+    }
+    return (i);
 }
 
 /**
- * get_section_index - find the node index.
- * @lead: leading list pointer.
- * @section: leading node pointer.
- * Return: find the indx or return -1.
+ * albady_node_starts_with - returns node whose string starts with prefix
+ * @node: pointer to list head
+ * @prefix: string to match
+ * @c: the next character after prefix to match
+ *
+ * Return: match node or null
  */
-ssize_t get_section_index(list_t *lead, list_t *section)
+albady_list_t *albady_node_starts_with(albady_list_t *node, char *prefix, char c)
 {
-	size_t j = 0;
+    char *p = NULL;
 
-	while (lead)
-	{
-		if (lead == section)
-			return (j);
-		lead = lead->next;
-		j++;
-	}
-	return (-1);
+    while (node)
+    {
+        p = albady_starts_with(node->str, prefix);
+        if (p && ((c == -1) || (*p == c)))
+            return (node);
+        node = node->next;
+    }
+    return (NULL);
+}
+
+/**
+ * albady_get_node_index - gets the index of a node
+ * @head: pointer to list head
+ * @node: pointer to the node
+ *
+ * Return: index of node or -1
+ */
+ssize_t albady_get_node_index(albady_list_t *head, albady_list_t *node)
+{
+    size_t i = 0;
+
+    while (head)
+    {
+        if (head == node)
+            return (i);
+        head = head->next;
+        i++;
+    }
+    return (-1);
 }

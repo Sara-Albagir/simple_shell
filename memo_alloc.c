@@ -1,61 +1,63 @@
-#include "main.h"
+#include "albady_shell.h"
 
 /**
- * bits_memo - hum function that locate bits to thememory.
- * @c: parameter points to the memory.
- * @cb: parameter byte.
- * @cn: num of byte.
- * Return: um pointer.
+ * albady_memset - fills memory with a constant byte
+ * @s: the pointer to the memory area
+ * @b: the byte to fill *s with
+ * @n: the amount of bytes to be filled
+ *
+ * Return: (s) a pointer to the memory area s
  */
-char *bits_memo(char *c, char cb, unsigned int cn)
+char *albady_memset(char *s, char b, unsigned int n)
 {
-	unsigned int j;
+    unsigned int i;
 
-	for (j = 0; j < cn; j++)
-		c[j] = cb;
-	return (c);
+    for (i = 0; i < n; i++)
+        s[i] = b;
+    return (s);
 }
 
 /**
- * strg_free - function that void hum string.
- * @poinpoin: parameter string.
+ * albady_ffree - frees a string of strings
+ * @pp: string of strings
  */
-void strg_free(char **poinpoin)
+void albady_ffree(char **pp)
 {
-	char **a = poinpoin;
+    char **a = pp;
 
-	if (!poinpoin)
-		return;
-	while (*poinpoin)
-		free(*poinpoin++);
-	free(a);
+    if (!pp)
+        return;
+    while (*pp)
+        free(*pp++);
+    free(a);
 }
 
 /**
- * alloc_memo - function reallocate memory.
- * @poinads: parameter points tp the previous block.
- * @presize: size of the memo block.
- * @postsize: size of post memo block.
- * Return: an address.
+ * albady_realloc - reallocates a block of memory
+ * @ptr: pointer to previous malloc'ated block
+ * @old_size: byte size of previous block
+ * @new_size: byte size of new block
+ *
+ * Return: pointer to da ol'block nameen.
  */
-void *alloc_memo(void *poinads, unsigned int presize, unsigned int postsize)
+void *albady_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
-	char *q;
+    char *p;
 
-	if (!poinads)
-		return (malloc(postsize));
-	if (!postsize)
-		return (free(poinads), NULL);
-	if (postsize == presize)
-		return (poinads);
+    if (!ptr)
+        return (malloc(new_size));
+    if (!new_size)
+        return (albady_ffree(ptr), NULL);
+    if (new_size == old_size)
+        return (ptr);
 
-	q = malloc(postsize);
-	if (!q)
-		return (NULL);
+    p = malloc(new_size);
+    if (!p)
+        return (NULL);
 
-	presize = presize < postsize ? presize : postsize;
-	while (presize--)
-		q[presize] = ((char *)poinads)[presize];
-	free(poinads);
-	return (q);
+    old_size = old_size < new_size ? old_size : new_size;
+    while (old_size--)
+        p[old_size] = ((char *)ptr)[old_size];
+    free(ptr);
+    return (p);
 }

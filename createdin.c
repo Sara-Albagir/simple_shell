@@ -1,97 +1,103 @@
-#include "main.h"
-
+#include "albady_shell.h"
 /**
- * _my_exit - exits shell
- * @ads: Structure contains potential args. maintains
- * const funct prototype.
- * Return: With a given exit status, exits
- * (0) if info.argv[0] != "exit"
+ * albady_myexit - exits the shell
+ * @info: Structure containing potential arguments. Used to maintain
+ * constant function prototype.
+ *
+ * Return: exits with a given exit status
+ * (0) if info->argv[0] != "exit"
  */
-int _my_exit(ads_t *ads)
+int albady_myexit(albady_info_t *info)
 {
-	int customExitCheck;
+	int exitcheck;
 
-	if (ads->argv[1])  /* Checkes If there is an exit arguement */
+	if (info->argv[1])  /* If there is an exit argument */
 	{
-		customExitCheck = _erratoi(ads->argv[1]);
-		if (customExitCheck == -1)
-		{
-			ads->status = 2;
-			error_print(ads, "Illegal number: ");
-			ef_puts(ads->argv[1]);
-			ef_putchar('\n');
-			return (1);
-		}
-		ads->err_num = _erratoi(ads->argv[1]);
-		return (-2);
+	exitcheck = albady_erratoi(info->argv[1]);
+	if (exitcheck == -1)
+	{
+	info->status = 2;
+	albady_print_error(info, "Illegal number: ");
+	albady_eputs(info->argv[1]);
+	albady_eputchar('\n');
+	return (1);
 	}
-	ads->err_num = -1;
+	info->err_num = albady_erratoi(info->argv[1]);
+	return (-2);
+	}
+	info->err_num = -1;
 	return (-2);
 }
 
 /**
- * _my_cds - cd the current directory process
- * @ads: Structure containing potential args. maintains
- * const function prototype.
- * Return: 0 Always
+ * albady_mycd - changes the current directory of the process
+ * @info: Structure containing potential arguments. Used to maintain
+ * constant function prototype.
+ *
+ * Return: Always 0
  */
-int _my_cds(ads_t *ads)
+int albady_mycd(albady_info_t *info)
 {
-	char *a, *dir, buffer[1024];
+	char *s, *dir, buffer[1024];
 	int chdir_ret;
 
-	a = getcwd(buffer, 1024);
-	if (!a)
-		puts("TODO: >>_getcwd failure emsg here<<\n");
-	if (!ads->argv[1])
+	s = getcwd(buffer, 1024);
+	if (!s)
+	albady_puts("TODO: >>getcwd failure emsg here<<\n");
+
+	if (!info->argv[1])
 	{
-		dir = _getenv(ads, "HOME=");
-		if (!dir)
-			chdir_ret = /* TODO: what should this be? */
-				chdir((dir = _getenv(ads, "PWD=")) ? dir : "/");
-		else
-			chdir_ret = chdir(dir);
+	dir = albady_getenv(info, "HOME=");
+	if (!dir)
+	chdir_ret = /* TODO: what should this be? */
+	chdir((dir = albady_getenv(info, "PWD=")) ? dir : "/");
+	else
+	chdir_ret = chdir(dir);
 	}
-	else if (_strcmp(ads->argv[1], "-") == 0)
+	else if (albady_strcmp(info->argv[1], "-") == 0)
 	{
-		if (!_getenv(ads, "OLDPWD="))
-		{
-			_puts(a);
-			_putchar('\n');
-			return (1);
-		}
-		_puts(_getenv(ads, "OLDPWD=")), _putchar('\n');
-		chdir_ret = /* TODO: what should this be? */
-			chdir((dir = _getenv(ads, "OLDPWD=")) ? dir : "/");
+	if (!albady_getenv(info, "OLDPWD="))
+	{
+	albady_puts(s);
+	albady_putchar('\n');
+	return (1);
+	}
+	albady_puts(albady_getenv(info, "OLDPWD=")), albady_putchar('\n');
+	chdir_ret = /* TODO: what should this be? */
+	chdir((dir = albady_getenv(info, "OLDPWD=")) ? dir : "/");
 	}
 	else
-		chdir_ret = chdir(ads->argv[1]);
+	chdir_ret = chdir(info->argv[1]);
+
 	if (chdir_ret == -1)
 	{
-		print_error(ads, "can't cd to ");
-		ef_puts(ads->argv[1]), ef_putchar('\n');
+	albady_print_error(info, "can't cd to ");
+	albady_eputs(info->argv[1]);
+	albady_eputchar('\n');
 	}
 	else
 	{
-		_setenv(ads, "OLDPWD", _getenv(ads, "PWD="));
-		_setenv(ads, "PWD", getcwd(buffer, 1024));
+	albady_setenv(info, "OLDPWD", albady_getenv(info, "PWD="));
+	albady_setenv(info, "PWD", getcwd(buffer, 1024));
 	}
+
 	return (0);
 }
 
 /**
- * _my_help - cd the current dir of the process
- * @ads: The Struct contains potential arguments. To maintain
- * const function prototype.
- * Return: 0 Always
+ * albady_myhelp - displays help information
+ * @info: Structure containing potential arguments. Used to maintain
+ * constant function prototype.
+ *
+ * Return: Always 0
  */
-int _my_help(ads_t *ads)
+int albady_myhelp(albady_info_t *info)
 {
 	char **arg_array;
 
-	arg_array = ads->argv;
-	_puts("help call works. Function not yet implemented \n");
+	arg_array = info->argv;
+	albady_puts("help call works. Function not yet implemented \n");
 	if (0)
-		_puts(*arg_array); /* workaround temp unused_att */
+	albady_puts(*arg_array); /* temp att_unused workaround */
 	return (0);
 }

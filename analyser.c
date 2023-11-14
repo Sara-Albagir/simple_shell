@@ -84,4 +84,3 @@ char *albady_find_path(albady_info_t *info, char *pathstr, char *cmd)
     }
     return (NULL);
 }
-

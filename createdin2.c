@@ -1,115 +1,118 @@
-#include "main.h"
+#include "albady_shell.h"
 
 /**
- * _my_history - Displays history list, a command by line, preceded
- * with line nums, starting at 0.
- * @ads: Structure contains potential arguments. Used to maintain
- * const function prototype.
- * Return: 0 Always
- */
-int _my_history(ads_t *ads)
-{
-	pnt_list(ads->history);
-	return (0);
-}
-
-/**
- * _my_alias - sets alias
- * @ads: parameter struct
- * @str: string alias
+ * albady_myhistory - displays the history list, one command by line, preceded
+ * with line numbers, starting at 0.
+ * @info: Structure containing potential arguments. Used to maintain
+ * constant function prototype.
  *
- * Return: 0 Always on success, 1 on error
+ * Return: Always 0
  */
-int _my_alias(ads_t *ads, char *str)
+int albady_myhistory(albady_info_t *info)
 {
-	char *p, a;
-	int ret;
-
-	p = _strchr(str, '=');
-	if (!p)
-		return (1);
-	a = *p;
-	*p = 0;
-	ret = delete_section_at_index(&(ads->alias),
-		get_section_index(ads->alias, section_starts_with(ads->alias, str, -1)));
-	*p = a;
-	return (ret);
+    albady_print_list_str(info->history);
+    return (0);
 }
 
 /**
- * _my_set_alias - sets the alias to string
- * @ads: The parameter struct
- * @str: string alias
+ * albady_unset_alias - unsets an alias
+ * @info: parameter struct
+ * @str: the string alias
  *
- * Return: 0 Always on success, 1 on error
+ * Return: Always 0 on success, 1 on error
  */
-int _my_set_alias(ads_t *ads, char *str)
+int albady_unset_alias(albady_info_t *info, char *str)
 {
-	char *p;
+    char *p, c;
+    int ret;
 
-	p = _strchr(str, '=');
-	if (!p)
-		return (1);
-	if (!*++p)
-		return (_my_alias(ads, str));
-
-	_my_alias(ads, str);
-	return (add_section_end(&(ads->alias), str, 0) == NULL);
+    p = albady_strchr(str, '=');
+    if (!p)
+        return (1);
+    c = *p;
+    *p = 0;
+    ret = albady_delete_node_at_index(&(info->alias),
+                                       albady_get_node_index(info->alias,
+                                                              albady_node_starts_with(info->alias, str, -1)));
+    *p = c;
+    return (ret);
 }
 
 /**
- * _my_print_alias - display an alias string
- * @section: alias node
+ * albady_set_alias - sets an alias
+ * @info: parameter struct
+ * @str: the string alias
  *
- * Return: 0 Always on success, 1 on error
+ * Return: Always 0 on success, 1 on error
  */
-int _my_print_alias(list_t *section)
+int albady_set_alias(albady_info_t *info, char *str)
 {
-	char *p = NULL, *a = NULL;
+    char *p;
 
-	if (section)
-	{
-		p = _strchr(section->str, '=');
-		for (a = section->str; a <= p; a++)
-			_putchar(*a);
-		_putchar('\'');
-		_puts(p + 1);
-		_puts("'\n");
-		return (0);
-	}
-	return (1);
+    p = albady_strchr(str, '=');
+    if (!p)
+        return (1);
+    if (!*++p)
+        return (albady_unset_alias(info, str));
+
+    albady_unset_alias(info, str);
+    return (albady_add_node_end(&(info->alias), str, 0) == NULL);
 }
 
 /**
- * _myalias - mimics the alias createdin (man alias)
- * @ads: Structure contains potential args. To maintain
- * const function prototype.
- * Return: 0 Always
+ * albady_print_alias - prints an alias string
+ * @node: the alias node
+ *
+ * Return: Always 0 on success, 1 on error
  */
-int _myalias(ads_t *ads)
+int albady_print_alias(albady_list_t *node)
 {
-	int i = 0;
-	char *p = NULL;
-	lists *section = NULL;
+    char *p = NULL, *a = NULL;
 
-	if (ads->argc == 1)
-	{
-		section = ads->alias;
-		while (section)
-		{
-			_my_print_palias(section);
-			section = section->next;
-		}
-		return (0);
-	}
-	for (i = 1; ads->argv[i]; i++)
-	{
-		p = _strchr(ads->argv[i], '=');
-		if (p)
-			_my_set_alias(ads, ads->argv[i]);
-		else
-			_my_print_alias(section_starts_with(ads->alias, ads->argv[i], '='));
-	}
+    if (node)
+    {
+        p = albady_strchr(node->str, '=');
+        for (a = node->str; a <= p; a++)
+            albady_putchar(*a);
+        albady_putchar('\'');
+        albady_puts(p + 1);
+        albady_puts("'\n");
+        return (0);
+    }
+    return (1);
+}
 
-	return (0);
+/**
+ * albady_myalias - mimics the alias builtin (man alias)
+ * @info: Structure containing potential arguments. Used to maintain
+ * constant function prototype.
+ *
+ * Return: Always 0
+ */
+int albady_myalias(albady_info_t *info)
+{
+    int i = 0;
+    char *p = NULL;
+    albady_list_t *node = NULL;
+
+    if (info->argc == 1)
+    {
+        node = info->alias;
+        while (node)
+        {
+            albady_print_alias(node);
+            node = node->next;
+        }
+        return (0);
+    }
+    for (i = 1; info->argv[i]; i++)
+    {
+        p = albady_strchr(info->argv[i], '=');
+        if (p)
+            albady_set_alias(info, info->argv[i]);
+        else
+            albady_print_alias(albady_node_starts_with(info->alias, info->argv[i], '='));
+    }
+
+    return (0);
 }

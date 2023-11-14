@@ -1,84 +1,85 @@
-#include "main.h"
+#include "albady_shell.h"
 
 /**
- * ef_puts - prints an input string
- * @str: string printed
+ * albady_eputs - prints an input string to standard error
+ * @str: the string to be printed
  *
  * Return: Nothing
  */
-void ef_puts(char *str)
+void albady_eputs(char *str)
 {
-	int i = 0;
+    int i = 0;
 
-	if (!str)
-		return;
-	while (str[i] != '\0')
-	{
-		ef_putchar(str[i]);
-		i++;
-	}
+    if (!str)
+        return;
+    while (str[i] != '\0')
+    {
+        albady_eputchar(str[i]);
+        i++;
+    }
 }
 
 /**
- * ef_putchar - writes character c to stderr
- * @c: chara to print
- * Return: 1 on success.
- * On error, -1 is returned, and errno is set.
- */
-int ef_putchar(char c)
-{
-	static int i;
-	static char buf[WRITE_BUF_SIZE];
-
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
-	{
-		write(2, buf, i);
-		i = 0;
-	}
-	if (x != BUF_FLUSH)
-		buf[i++] = x;
-	return (1);
-}
-
-/**
- * fd_put - writes the char c to given fd
- * @c: chara to print
- * @fd: file descriptor to write to
+ * albady_eputchar - writes the character c to standard error
+ * @c: The character to print
  *
- * Return: 1 On success.
- * On error, returns -1, and errno is set appropriately.
+ * Return: On success 1.
+ *         On error, -1 is returned, and errno is set appropriately.
  */
-int fd_put(char c, int fd)
+int albady_eputchar(char c)
 {
-	static int i;
-	static char buf[WRITE_BUF_SIZE];
+    static int i;
+    static char buf[ALBADY_WRITE_BUF_SIZE];
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
-	{
-		write(sd, buf, i);
-		i = 0;
-	}
-	if (c != BUF_FLUSH)
-		buf[i++] = c;
-	return (1);
+    if (c == ALBADY_BUF_FLUSH || i >= ALBADY_WRITE_BUF_SIZE)
+    {
+        write(2, buf, i);
+        i = 0;
+    }
+    if (c != ALBADY_BUF_FLUSH)
+        buf[i++] = c;
+    return (1);
 }
 
 /**
- * fd_puts - prints an input str
- * @str: string printed
- * @fd: file descriptor to write to
+ * albady_putfd - writes the character c to a given file descriptor
+ * @c: The character to print
+ * @fd: The file descriptor to write to
  *
- * Return: Number of chars put.
+ * Return: On success 1.
+ *         On error, -1 is returned, and errno is set appropriately.
  */
-int fd_puts(char *str, int fd)
+int albady_putfd(char c, int fd)
 {
-	int i = 0;
+    static int i;
+    static char buf[ALBADY_WRITE_BUF_SIZE];
 
-	if (!str)
-		return (0);
-	while (*str)
-	{
-		i += fd_put(*str++, fd);
-	}
-	return (i);
+    if (c == ALBADY_BUF_FLUSH || i >= ALBADY_WRITE_BUF_SIZE)
+    {
+        write(fd, buf, i);
+        i = 0;
+    }
+    if (c != ALBADY_BUF_FLUSH)
+        buf[i++] = c;
+    return (1);
+}
+
+/**
+ * albady_putsfd - prints an input string to a given file descriptor
+ * @str: the string to be printed
+ * @fd: the file descriptor to write to
+ *
+ * Return: the number of characters written
+ */
+int albady_putsfd(char *str, int fd)
+{
+    int i = 0;
+
+    if (!str)
+        return (0);
+    while (*str)
+    {
+        i += albady_putfd(*str++, fd);
+    }
+    return (i);
 }

@@ -1,43 +1,45 @@
-#include "main.h"
+#include "albady_shell.h"
 
 /**
- * main - our main function.
- * @ac: the count of arguments.
- * @av: the vector of arguments.
- * Return: 0 or 1.
+ * main - entry point
+ * @ac: arg count
+ * @av: arg vector
+ *
+ * Return: 0 on success, 1 on error
  */
 int main(int ac, char **av)
 {
-	ads_t ads[] = { ADS_INIT };
-	int vp = 2;
+    albady_info_t info = ALBADY_INFO_INIT; // Initialize albady_info_t structure
+    int fd = 2;
 
-	asm ("mov %1, %0\n\t"
-		"add $3, %0"
-		: "=r" (vp)
-		: "r" (vp));
+    asm ("mov %1, %0\n\t"
+        "add $3, %0"
+        : "=r" (fd)
+        : "r" (fd));
 
-	if (ac == 2)
-	{
-		vp = open(av[1], O_RDONLY);
-		if (vp == -1)
-		{
-			if (errno == EACCES)
-				exit(126);
-			if (errno == ENOENT)
-			{
-				ef_puts(av[0]);
-				ef_puts(": 0: Can't open ");
-				ef_puts(arv[1]);
-				ef_putchar('\n');
-				ef_putchar(BUFF_FLUSH);
-				exit(127);
-			}
-			return (EXIT_FAILURE);
-		}
-		ads->readvp = vp;
-	}
-	populate_env_list(ads);
-	read_history(ads);
-	hsh(ads, av);
-	return (EXIT_SUCCESS);
+    if (ac == 2)
+    {
+        fd = open(av[1], O_RDONLY);
+        if (fd == -1)
+        {
+            if (errno == EACCES)
+                exit(126);
+            if (errno == ENOENT)
+            {
+                albady_eputs(av[0]);
+                albady_eputs(": 0: Can't open ");
+                albady_eputs(av[1]);
+                albady_eputchar('\n');
+                albady_eputchar(ALBADY_BUF_FLUSH);
+                exit(127);
+            }
+            return (EXIT_FAILURE);
+        }
+        info.readfd = fd;
+    }
+
+    albady_populate_env_list(&info);
+    albady_read_history(&info);
+    albady_hsh(&info, av);
+    return (EXIT_SUCCESS);
 }

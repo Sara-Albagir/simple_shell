@@ -1,82 +1,96 @@
-#include "main.h"
+#include "albady_shell.h"
 
 /**
- * _cpy_strg - function that copy a string.
- * @dbuf: final buff.
- * @sbuf: origional buff.
- * Return: a pointer.
+ * albady_strcpy - copies a string
+ * @dest: the destination
+ * @src: the source
+ *
+ * Return: pointer to destination
  */
-char *_cpy_strg(char *dbuf, char *sbuf)
+char *albady_strcpy(char *dest, char *src)
 {
-	int j = 0;
+    int i = 0;
 
-	if (dbuf == sbuf || sbuf == 0)
-		return (dbuf);
-	while (sbuf[j])
-	{
-		dbuf[j] = sbuf[j];
-		j++;
-	}
-	dbuf[j] = 0;
-	return (dbuf);
+    if (dest == src || src == NULL)
+        return dest;
+
+    while (src[i])
+    {
+        dest[i] = src[i];
+        i++;
+    }
+
+    dest[i] = '\0';
+    return dest;
 }
 
 /**
- * dup_strg - a function that dubble a string.
- * @strg: a given string in question.
- * Return: points to the given string.
+ * albady_strdup - duplicates a string
+ * @str: the string to duplicate
+ *
+ * Return: pointer to the duplicated string
  */
-char *dup_strg(const char *strg)
+char *albady_strdup(const char *str)
 {
-	int lnth = 0;
-	char *fin;
+    int length = 0;
+    char *ret;
 
-	if (strg == NULL)
-		return (NULL);
-	while (*strg++)
-		lnth++;
-	fin = malloc(sizeof(char) * (lnth + 1));
-	if (!fin)
-		return (NULL);
-	for (lnth++; lnth--;)
-		fin[lnth] = *--strg;
-	return (fin);
+    if (str == NULL)
+        return NULL;
+
+    while (*str++)
+        length++;
+
+    ret = malloc(sizeof(char) * (length + 1));
+    if (!ret)
+        return NULL;
+
+    for (length++; length--;)
+        ret[length] = *--str;
+
+    return ret;
 }
 
 /**
- *inp_strg - take a given string and prints it.
- *@strg: a given string.
- * Return: none.
+ * albady_puts - prints an input string
+ * @str: the string to be printed
+ *
+ * Return: Nothing
  */
-void inp_strg(char *strg)
+void albady_puts(char *str)
 {
-	int j = 0;
+    int i = 0;
 
-	if (!strg)
-		return;
-	while (strg[j] != '\0')
-	{
-		_printchar(strg[j]);
-		j++;
-	}
+    if (!str)
+        return;
+
+    while (str[i] != '\0')
+    {
+        albady_putchar(str[i]);
+        i++;
+    }
 }
 
 /**
- * _printchar - prints out ch.
- * @ch: a char to print.
- * Return: 1 or -1.
+ * albady_putchar - writes the character c to stdout
+ * @c: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
  */
-int _printchar(char ch)
+int albady_putchar(char c)
 {
-	static int j;
-	static char buff[WRITE_BUFF_SIZE];
+    static int i;
+    static char buf[ALBADY_WRITE_BUF_SIZE];
 
-	if (ch == BUF_FLUSH || j >= WRITE_BUFF_SIZE)
-	{
-		write(1, buff, j);
-		j = 0;
-	}
-	if (ch != BUFF_FLUSH)
-		buff[j++] = ch;
-	return (1);
+    if (c == ALBADY_BUF_FLUSH || i >= ALBADY_WRITE_BUF_SIZE)
+    {
+        write(1, buf, i);
+        i = 0;
+    }
+
+    if (c != ALBADY_BUF_FLUSH)
+        buf[i++] = c;
+
+    return 1;
 }

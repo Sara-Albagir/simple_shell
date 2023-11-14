@@ -1,92 +1,96 @@
-#include "main.h"
+#include "albady_shell.h"
 
 /**
- * my_env - Display current enviroment
- * @ads: Structure of potential args. Used to maintain
- * const function prototype.
- * Return: 0 Always
- */
-int my_env(ads_t *ads)
-{
-	print_list_str(ads->env);
-	return (0);
-}
-
-/**
- * get_env - gets value of an envir var
- * @ads: Structure contains potential args. To maintain
- * @label: The env variable name
+ * albady_myenv - prints the current environment
+ * @info: Structure containing potential arguments. Used to maintain
+ *              constant function prototype.
  *
- * Return: value
+ * Return: Always 0
  */
-char *get_env(ads_t *ads, const char *label)
+int albady_myenv(albady_info_t *info)
 {
-	list_t *section = ads->env;
-	char *p;
-
-	while (section)
-	{
-		p = starts_with(section->str, label);
-		if (p && *p)
-			return (p);
-		section = section->next;
-	}
-	return (NULL);
+    albady_print_list_str(info->env);
+    return (0);
 }
 
 /**
- * my_set_env - Initialize a new envir var,
- * or modify existing one
- * @ads: Struct containing potential args. maintains
- * const function prototype.
- * Return: 0 Always
+ * albady_getenv - gets the value of an environment variable
+ * @info: Structure containing potential arguments. Used to maintain
+ * @name: env var name
+ *
+ * Return: the value
  */
-int my_set_env(ads_t *ads)
+char *albady_getenv(albady_info_t *info, const char *name)
 {
-	if (ads->argc != 3)
-	{
-		_eputs("Incorrect number of arguements\n");
-		return (1);
-	}
-	if (_setenv(ads, ads->argv[1], ads->argv[2]))
-		return (0);
-	return (1);
+    albady_list_t *node = info->env;
+    char *p;
+
+    while (node)
+    {
+        p = albady_starts_with(node->str, name);
+        if (p && *p)
+            return (p);
+        node = node->next;
+    }
+    return (NULL);
 }
 
 /**
- * my_unset_env - Remove envir var
- * @ads: Struct containing potential args. to maintain
- * const function prototype.
- * Return: 0 Always
+ * albady_mysetenv - Initialize a new environment variable,
+ *                  or modify an existing one
+ * @info: Structure containing potential arguments. Used to maintain
+ *          constant function prototype.
+ *
+ * Return: Always 0
  */
-int my_unset_env(ads_t *ads)
+int albady_mysetenv(albady_info_t *info)
 {
-	int i;
-
-	if (ads->argc == 1)
-	{
-		_eputs("Too few arguements.\n");
-		return (1);
-	}
-	for (i = 1; i < ads->argc; i++)
-		_unsetenv(ads, ads->argv[i]);
-
-	return (0);
+    if (info->argc != 3)
+    {
+        albady_eputs("Incorrect number of arguments\n");
+        return (1);
+    }
+    if (albady_setenv(info, info->argv[1], info->argv[2]))
+        return (0);
+    return (1);
 }
 
 /**
- * populate_envlist - Program populates env linked list
- * @ads: The Struct containing potential args. Used to maintain
- * const function prototype.
- * Return: 0 Always
+ * albady_myunsetenv - Remove an environment variable
+ * @info: Structure containing potential arguments. Used to maintain
+ *                    constant function prototype.
+ *
+ * Return: Always 0
  */
-int populate_envlist(ads_t *ads)
+int albady_myunsetenv(albady_info_t *info)
 {
-	list_t *section = NULL;
-	size_t i;
+    int i;
 
-	for (i = 0; envi[i]; i++)
-		add_section_end(&section, envi[i], 0);
-	ads->env = section;
-	return (0);
+    if (info->argc == 1)
+    {
+        albady_eputs("Too few arguments.\n");
+        return (1);
+    }
+    for (i = 1; i <= info->argc; i++)
+        albady_unsetenv(info, info->argv[i]);
+
+    return (0);
+}
+
+/**
+ * albady_populate_env_list - populates env linked list
+ * @info: Structure containing potential arguments. Used to maintain
+ *              constant function prototype.
+ *
+ * Return: Always 0
+ */
+int albady_populate_env_list(albady_info_t *info)
+{
+    albady_list_t *node = NULL;
+    size_t i;
+
+    for (i = 0; environ[i]; i++)
+        albady_add_node_end(&node, environ[i], 0);
+    info->env = node;
+    return (0);
 }
