@@ -36,7 +36,8 @@ int albady_is_chain(info_t *info, char *buf, size_t *p)
 }
 
 /**
- * albady_check_chain - checks we should continue chaining based on last status
+ * albady_check_chain - checks we should continue
+ * chaining based on last status
  * @info: the parameter struct
  * @buf: the char buffer
  * @p: address of current position in buf
@@ -45,7 +46,8 @@ int albady_is_chain(info_t *info, char *buf, size_t *p)
  *
  * Return: Void
  */
-void albady_check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
+void albady_check_chain(info_t *info, char *buf,
+size_t *p, size_t i, size_t len)
 {
 	size_t j = *p;
 
