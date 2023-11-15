@@ -18,7 +18,6 @@ int exe(char **cmd, char **vecar)
 		if (execve(cmd[0], cmd, environ) == -1)
 		{
 			perror(vecar[0]);
-<<<<<<< HEAD
 			_stringfreeing(cmd);
 			exit(127);
 		}
@@ -30,7 +29,6 @@ int exe(char **cmd, char **vecar)
 
 	}
 	return (WEXITSTATUS(posit));
-=======
 				_stringfreeing(cmd);
 			exit(127);
 		}
@@ -42,5 +40,4 @@ int exe(char **cmd, char **vecar)
 
 		}
 		return (WEXITSTATUS(posit));
->>>>>>> 04a8ff5c299496c09a303dfa5582e929918062ef
 }

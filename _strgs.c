@@ -1,6 +1,6 @@
 #include "shell.h"
 
-/*
+/**
  * dup_strg - a function that duplicate 2 strings.
  * @srg: the string in question.
  * Return: a pointer.
@@ -20,10 +20,6 @@ char *dup_strg(const char *srg)
 	}
 	srg = srg - line;
 	poin = malloc(sizeof(char) * (line + 1));
-<<<<<<< HEAD
-=======
-
->>>>>>> 04a8ff5c299496c09a303dfa5582e929918062ef
 	if (poin == NULL)
 		return (NULL);
 	for (h = 0; h <= line; h++)
@@ -46,17 +42,14 @@ int cmp_strg(char *a1, char *a2)
 	while (*a1)
 	{
 		if (*a1 != *a2)
-<<<<<<< HEAD
 		break;
 	a1++;
 	a2++;
 	prm = (int)*a1 - (int)*a2;
-=======
 			break;
 		a1++;
 		a2++;
 		prm = (int)*a1 - (int)*a2;
->>>>>>> 04a8ff5c299496c09a303dfa5582e929918062ef
 	}
 	return (prm);
 }
@@ -96,13 +89,10 @@ char *cat_strg(char *fbuf, char *sbuf)
 		u++;
 		sbuf++;
 	}
-<<<<<<< HEAD
 	*u = *sbuf;
 	return (fbuf);
-=======
 		*u = *sbuf;
 		return (fbuf);
->>>>>>> 04a8ff5c299496c09a303dfa5582e929918062ef
 }
 
 /**
