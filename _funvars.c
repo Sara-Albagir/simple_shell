@@ -8,7 +8,7 @@
  *
  * Return: 1 if chain delimeter, 0 otherwise
  */
-int albady_is_chain(info_t *info, char *buf, size_t *p)
+int albady_is_chain(albady_info_t *info, char *buf, size_t *p)
 {
 	size_t j = *p;
 
@@ -46,7 +46,7 @@ int albady_is_chain(info_t *info, char *buf, size_t *p)
  *
  * Return: Void
  */
-void albady_check_chain(info_t *info, char *buf,
+void albady_check_chain(albady_info_t *info, char *buf,
 size_t *p, size_t i, size_t len)
 {
 	size_t j = *p;
@@ -77,22 +77,22 @@ size_t *p, size_t i, size_t len)
  *
  * Return: 1 if replaced, 0 otherwise
  */
-int albady_replace_alias(info_t *info)
+int albady_replace_alias(albady_info_t *info)
 {
 	int i;
-	list_t *node;
+	albady_list_t *node;
 	char *p;
 
 	for (i = 0; i < 10; i++)
 	{
-		node = node_starts_with(info->alias, info->argv[0], '=');
+		node = albady_node_starts_with(albady_info_t->alias, info->argv[0], '=');
 		if (!node)
 			return (0);
 		free(info->argv[0]);
-		p = _strchr(node->str, '=');
+		p = albady_strchr(node->str, '=');
 		if (!p)
 			return (0);
-		p = _strdup(p + 1);
+		p = albady_strdup(p + 1);
 		if (!p)
 			return (0);
 		info->argv[0] = p;
@@ -106,36 +106,36 @@ int albady_replace_alias(info_t *info)
  *
  * Return: 1 if replaced, 0 otherwise
  */
-int albady_replace_vars(info_t *info)
+int albady_replace_vars(albady_info_t *info)
 {
 	int i = 0;
-	list_t *node;
+	albady_list_t *node;
 
 	for (i = 0; info->argv[i]; i++)
 	{
 		if (info->argv[i][0] != '$' || !info->argv[i][1])
 			continue;
 
-		if (!_strcmp(info->argv[i], "$?"))
+		if (!albady_strcmp(info->argv[i], "$?"))
 		{
-			replace_string(&(info->argv[i]),
-				_strdup(convert_number(info->status, 10, 0)));
+			albady_replace_string(&(info->argv[i]),
+				albady_strdup(albady_convert_number(info->status, 10, 0)));
 			continue;
 		}
-		if (!_strcmp(info->argv[i], "$$"))
+		if (!albady_strcmp(info->argv[i], "$$"))
 		{
-			replace_string(&(info->argv[i]),
-				_strdup(convert_number(getpid(), 10, 0)));
+			albady_replace_string(&(info->argv[i]),
+				albady_strdup(albady_convert_number(getpid(), 10, 0)));
 			continue;
 		}
-		node = node_starts_with(info->env, &info->argv[i][1], '=');
+		node = albady_node_starts_with(info->env, &info->argv[i][1], '=');
 		if (node)
 		{
-			replace_string(&(info->argv[i]),
-				_strdup(_strchr(node->str, '=') + 1));
+			albady_replace_string(&(info->argv[i]),
+				albady_strdup(albady_strchr(node->str, '=') + 1));
 			continue;
 		}
-		replace_string(&info->argv[i], _strdup(""));
+		albady_replace_string(&info->argv[i], albady_strdup(""));
 
 	}
 	return (0);

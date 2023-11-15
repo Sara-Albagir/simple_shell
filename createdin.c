@@ -62,7 +62,7 @@ int albady_mycd(albady_info_t *info)
 		}
 		albady_puts(albady_getenv(info, "OLDPWD=")), albady_putchar('\n');
 		chdir_ret = /* TODO: what should this be? */
-			chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
+			chdir((dir = albady_getenv(info, "OLDPWD=")) ? dir : "/");
 	}
 	else
 		chdir_ret = chdir(info->argv[1]);
