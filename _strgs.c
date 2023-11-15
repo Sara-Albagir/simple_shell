@@ -1,6 +1,6 @@
 #include "shell.h"
 
-/*
+/**
  * dup_strg - a function that duplicate 2 strings.
  * @srg: the string in question.
  * Return: a pointer.

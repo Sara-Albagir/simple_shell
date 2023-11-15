@@ -1,11 +1,8 @@
 #include "shell.h"
-/*
- * splitter - function acts as atokenizer.
- *
+/**
+ * splitter - splits a given string into separate inputs.
  * @length: parameter.
- *
  * Return: null.
- *
  */
 
 char **splitter(char *length)
