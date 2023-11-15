@@ -1,6 +1,6 @@
 #include "shell.h"
 /*
- * splitter - tokenizer function.
+ * splitter - is the tokenizer function.
  * @length: parameter.
  * Return: null.
  */
