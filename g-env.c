@@ -68,7 +68,7 @@ int albady_setenv(albady_info_t *info, char *var, char *value)
 	if (!var || !value)
 	return (0);
 
-	buf = albady_malloc(albady_strlen(var) + albady_strlen(value) + 2);
+	buf = malloc(albady_strlen(var) + albady_strlen(value) + 2);
 	if (!buf)
 	return (1);
 	albady_strcpy(buf, var);
@@ -88,7 +88,7 @@ int albady_setenv(albady_info_t *info, char *var, char *value)
 	node = node->next;
 	}
 	albady_add_node_end(&(info->env), buf, 0);
-	albady_free(buf);
+	free(buf);
 	info->env_changed = 1;
 	return (0);
 }
