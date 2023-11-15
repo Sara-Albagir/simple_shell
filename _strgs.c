@@ -20,7 +20,6 @@ char *dup_strg(const char *srg)
 	}
 	srg = srg - line;
 	poin = malloc(sizeof(char) * (line + 1));
-
 	if (poin == NULL)
 		return (NULL);
 	for (h = 0; h <= line; h++)
@@ -43,6 +42,10 @@ int cmp_strg(char *a1, char *a2)
 	while (*a1)
 	{
 		if (*a1 != *a2)
+		break;
+	a1++;
+	a2++;
+	prm = (int)*a1 - (int)*a2;
 			break;
 		a1++;
 		a2++;
@@ -86,6 +89,8 @@ char *cat_strg(char *fbuf, char *sbuf)
 		u++;
 		sbuf++;
 	}
+	*u = *sbuf;
+	return (fbuf);
 		*u = *sbuf;
 		return (fbuf);
 }

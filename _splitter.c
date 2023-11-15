@@ -1,6 +1,7 @@
 #include "shell.h"
 /**
  * splitter - splits a given string into separate inputs.
+ * splitter - function acts as a tokenizer.
  * @length: parameter.
  * Return: null.
  */
