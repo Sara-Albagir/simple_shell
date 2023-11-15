@@ -1,5 +1,4 @@
-#include "main.h"
-
+#include "albady_shell.h"
 /**
  * envir_getter - Returns string array copy of our envir.
  * @ads: The Structure contains potential args. To maintain
