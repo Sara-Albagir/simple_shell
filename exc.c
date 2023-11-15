@@ -22,22 +22,12 @@ int exe(char **cmd, char **vecar)
 			exit(127);
 		}
 	}
-	else
-	{
-		waitpid(child, &posit, 0);
-		_stringfreeing(cmd);
 
-	}
-	return (WEXITSTATUS(posit));
-				_stringfreeing(cmd);
-			exit(127);
-		}
-	}
 		else
 		{
 			waitpid(child, &posit, 0);
-				_stringfreeing(cmd);
+			_stringfreeing(cmd);
 
 		}
-		return (WEXITSTATUS(posit));
+	return (WEXITSTATUS(posit));
 }
