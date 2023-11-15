@@ -1,8 +1,11 @@
 #include "shell.h"
 /*
- * splitter - is the tokenizer function.
+ * splitter - function acts as atokenizer.
+ *
  * @length: parameter.
+ *
  * Return: null.
+ *
  */
 
 char **splitter(char *length)
