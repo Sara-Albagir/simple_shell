@@ -8,23 +8,23 @@
 
 char *dup_strg(const char *srg)
 {
-        char *poin;
-        int h, line = 0;
+	char *poin;
+	int h, line = 0;
 
-        if (srg == NULL)
-                return (NULL);
-        while (*srg != '\0')
-        {
-                line++;
-                srg++;
-        }
-        srg = srg - line;
-        poin = malloc(sizeof(char) * (line + 1));
-        if (poin == NULL)
-                return (NULL);
-        for (h = 0; h <= line; h++)
-                poin[h] = srg[h];
-        return (poin);
+	if (srg == NULL)
+		return (NULL);
+	while (*srg != '\0')
+	{
+		line++;
+		srg++;
+	}
+	srg = srg - line;
+	poin = malloc(sizeof(char) * (line + 1));
+	if (poin == NULL)
+		return (NULL);
+	for (h = 0; h <= line; h++)
+		poin[h] = srg[h];
+	return (poin);
 }
 
 /**
@@ -36,18 +36,18 @@ char *dup_strg(const char *srg)
 
 int cmp_strg(char *a1, char *a2)
 {
-        int prm;
+	int prm;
 
-        prm = (int)*a1 - (int)*a2;
-        while (*a1)
-        {
-                if (*a1 != *a2)
-                break;
-        a1++;
-        a2++;
-        prm = (int)*a1 - (int)*a2;
-        }
-        return (prm);
+	prm = (int)*a1 - (int)*a2;
+	while (*a1)
+	{
+		if (*a1 != *a2)
+		break;
+	a1++;
+	a2++;
+	prm = (int)*a1 - (int)*a2;
+	}
+	return (prm);
 }
 
 /**
@@ -58,11 +58,11 @@ int cmp_strg(char *a1, char *a2)
 
 int len_strg(char *a)
 {
-        int line = 0;
+	int line = 0;
 
-        while (a[line])
-                line++;
-        return (line);
+	while (a[line])
+		line++;
+	return (line);
 }
 
 /**
@@ -74,19 +74,19 @@ int len_strg(char *a)
 
 char *cat_strg(char *fbuf, char *sbuf)
 {
-        char *u = fbuf;
+	char *u = fbuf;
 
-        while (*u)
-                u++;
+	while (*u)
+		u++;
 
-        while (*sbuf)
-        {
-                *u = *sbuf;
-                u++;
-                sbuf++;
-        }
-        *u = *sbuf;
-        return (fbuf);
+	while (*sbuf)
+	{
+		*u = *sbuf;
+		u++;
+		sbuf++;
+	}
+	*u = *sbuf;
+	return (fbuf);
 }
 
 /**
@@ -98,13 +98,13 @@ char *cat_strg(char *fbuf, char *sbuf)
 
 char *cpy_strg(char *fbuf, char *sbuf)
 {
-        int h = 0;
+	int h = 0;
 
-        while (sbuf[h])
-        {
-                fbuf[h] = sbuf[h];
-                h++;
-        }
-        fbuf[h] = '\0';
-        return (fbuf);
+	while (sbuf[h])
+	{
+		fbuf[h] = sbuf[h];
+		h++;
+	}
+	fbuf[h] = '\0';
+	return (fbuf);
 }
