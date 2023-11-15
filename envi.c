@@ -78,8 +78,8 @@ int albady_populate_env_list(albady_info_t *info)
 	albady_list_t *node = NULL;
 	size_t i;
 
-	for (i = 0; environ[i]; i++)
-	albady_add_node_end(&node, environ[i], 0);
+	for (i = 0; albady_environ[i]; i++)
+	albady_add_node_end(&node, albady_environ[i], 0);
 	info->env = node;
 	return (0);
 }
