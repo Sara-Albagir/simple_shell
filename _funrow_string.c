@@ -1,10 +1,9 @@
 #include "albady_shell.h"
 
 /**
- * albady_strlen - custom implementation of strlen function
- * @s: the string whose length to check
- *
- * Return: integer length of the string
+ * albady_strlen - impliment the strlen function.
+ * @s: string in question.
+ * Return: an int.
  */
 int albady_strlen(char *s)
 {
@@ -19,11 +18,10 @@ int albady_strlen(char *s)
 }
 
 /**
- * albady_strcmp - custom implementation of strcmp function
- * @s1: the first string
- * @s2: the second string
- *
- * Return: negative if s1 < s2, positive if s1 > s2, zero if s1 == s2
+ * albady_strcmp - impliment the strcpy function.
+ * @s1: pre string in question.
+ * @s2: post string in question.
+ * Return: + or -.
  */
 int albady_strcmp(char *s1, char *s2)
 {
@@ -56,11 +54,10 @@ char *albady_starts_with(const char *haystack, const char *needle)
 }
 
 /**
- * albady_strcat - custom implementation of strcat function
- * @dest: the destination buffer
- * @src: the source buffer
- *
- * Return: pointer to the destination buffer
+ * albady_strcat - impliment the strcat function.
+ * @dest: final buf.
+ * @src: origional buf.
+ * Return: an address.
  */
 char *albady_strcat(char *dest, char *src)
 {

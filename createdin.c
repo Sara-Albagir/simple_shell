@@ -1,11 +1,9 @@
 #include "albady_shell.h"
 
 /**
- * albady_myexit - exits the shell
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- * Return: exits with a given exit status
- * (0) if info.argv[0] != "exit"
+ * albady_myexit - a function that leaves the shell.
+ * @info: a paramater of type struct.
+ * Return: 0 or 1.
  */
 int albady_myexit(albady_info_t *info)
 {
@@ -30,10 +28,9 @@ int albady_myexit(albady_info_t *info)
 }
 
 /**
- * albady_mycd - changes the current directory of the process
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- * Return: Always 0
+ * albady_mycd - do the cd function.
+ * @info: a paramater of type struct.
+ * Return: 0
  */
 int albady_mycd(albady_info_t *info)
 {
@@ -80,10 +77,9 @@ int albady_mycd(albady_info_t *info)
 }
 
 /**
- * albady_myhelp - changes the current directory of the process
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- * Return: Always 0
+ * albady_myhelp - do the cd function.
+ * @info: a paramater of type struct.
+ * Return: 0
  */
 int albady_myhelp(albady_info_t *info)
 {

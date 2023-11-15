@@ -2,10 +2,9 @@
 
 /**
  * albady_hsh - main shell loop
- * @info: the parameter & return albady_info_t struct
- * @av: the argument vector from main()
- *
- * Return: 0 on success, 1 on error, or error code
+ * @info: parameter of the function.
+ * @av: vectoral arguments.
+ * Return: 1 or 0.
  */
 int albady_hsh(albady_info_t *info, char **av)
 {
@@ -45,12 +44,8 @@ int albady_hsh(albady_info_t *info, char **av)
 
 /**
  * albady_find_builtin - finds a builtin command
- * @info: the parameter & return albady_info_t struct
- *
- * Return: -1 if builtin not found,
- *         0 if builtin executed successfully,
- *         1 if builtin found but not successful,
- *         -2 if builtin signals exit()
+ * @info: function parameter.
+ * Return: 0, 1, -1, -2.
  */
 int albady_find_builtin(albady_info_t *info)
 {
@@ -78,10 +73,9 @@ int albady_find_builtin(albady_info_t *info)
 }
 
 /**
- * albady_find_cmd - finds a command in PATH
- * @info: the parameter & return albady_info_t struct
- *
- * Return: void
+ * albady_find_cmd - search for the cms in theworking path.
+ * @info: parameter function.
+ * Return: none.
  */
 void albady_find_cmd(albady_info_t *info)
 {
@@ -120,10 +114,9 @@ void albady_find_cmd(albady_info_t *info)
 }
 
 /**
- * albady_fork_cmd - forks an exec thread to run cmd
- * @info: the parameter & return albady_info_t struct
- *
- * Return: void
+ * albady_fork_cmd - a command forker function.
+ * @info: parameter function.
+ * Return: none.
  */
 void albady_fork_cmd(albady_info_t *info)
 {
@@ -141,7 +134,8 @@ void albady_fork_cmd(albady_info_t *info)
 	if (execve(info->path, info->argv, albady_get_environ(info)) == -1)
 	{
 	albady_free_info(info, 1);
-	if (errno == EACCES) {
+	if (errno == EACCES)
+	{
 		exit(126);
 		exit(1);
 	}

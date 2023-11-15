@@ -1,9 +1,9 @@
 #include "albady_shell.h"
 
 /**
- * albady_bfree - frees a pointer and NULLs the address
- * @ptr: address of the pointer to free
- * Return: 1 if freed, otherwise 0.
+ * albady_bfree - function that frees and null.
+ * @ptr: point points to free.
+ * Return: 1 or 0.
  */
 int albady_bfree(void **ptr)
 {

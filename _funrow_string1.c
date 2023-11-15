@@ -1,11 +1,10 @@
 #include "albady_shell.h"
 
 /**
- * albady_strcpy - copies a string
- * @dest: the destination
- * @src: the source
- *
- * Return: pointer to destination
+ * albady_strcpy - function that copies a string
+ * @dest: the dir.
+ * @src: the origin.
+ * Return: an address.
  */
 char *albady_strcpy(char *dest, char *src)
 {
@@ -25,10 +24,9 @@ char *albady_strcpy(char *dest, char *src)
 }
 
 /**
- * albady_strdup - duplicates a string
- * @str: the string to duplicate
- *
- * Return: pointer to the duplicated string
+ * albady_strdup - functionthat dubble a string.
+ * @str: in question string.
+ * Return: an address.
  */
 char *albady_strdup(const char *str)
 {
@@ -52,10 +50,9 @@ char *albady_strdup(const char *str)
 }
 
 /**
- * albady_puts - prints an input string
- * @str: the string to be printed
- *
- * Return: Nothing
+ * albady_puts - printer function.
+ * @str: the string in question.
+ * Return: None.
  */
 void albady_puts(char *str)
 {
@@ -72,11 +69,9 @@ void albady_puts(char *str)
 }
 
 /**
- * albady_putchar - writes the character c to stdout
- * @c: The character to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * albady_putchar - function that writes char c to stdout
+ * @c: char to print.
+ * Return: 1 or -1.
  */
 int albady_putchar(char c)
 {

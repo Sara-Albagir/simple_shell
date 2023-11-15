@@ -1,10 +1,10 @@
 #include "albady_shell.h"
 
 /**
- * albady_strtow - splits a string into words. Repeat delimiters are ignored
- * @str: the input string
- * @d: the delimeter string
- * Return: a pointer to an array of strings, or NULL on failure
+ * albady_strtow - divvey in question string to separate words.
+ * @str: stg got input.
+ * @d: delim parameter.
+ * Return: an address or null.
  */
 
 char **albady_strtow(char *str, char *d)
@@ -51,9 +51,9 @@ char **albady_strtow(char *str, char *d)
 
 /**
  * albady_strtow2 - splits a string into words
- * @str: the input string
- * @d: the delimeter
- * Return: a pointer to an array of strings, or NULL on failure
+ * @str: string got input.
+ * @d: delim parameter.
+ * Return: an address or null.
  */
 char **albady_strtow2(char *str, char d)
 {

@@ -1,12 +1,11 @@
 #include "albady_shell.h"
 
 /**
- * albady_memset - fills memory with a constant byte
- * @s: the pointer to the memory area
- * @b: the byte to fill *s with
- * @n: the amount of bytes to be filled
- *
- * Return: (s) a pointer to the memory area s
+ * albady_memset - insert the memo with bytes.
+ * @s: points to thw memory.
+ * @b: the mentioned bytes.
+ * @n: number of bytes.
+ * Return: an address.
  */
 char *albady_memset(char *s, char b, unsigned int n)
 {
@@ -18,8 +17,8 @@ char *albady_memset(char *s, char b, unsigned int n)
 }
 
 /**
- * albady_ffree - frees a string of strings
- * @pp: string of strings
+ * albady_ffree - string free.
+ * @pp:in question strings.
  */
 void albady_ffree(char **pp)
 {
@@ -33,12 +32,11 @@ void albady_ffree(char **pp)
 }
 
 /**
- * albady_realloc - reallocates a block of memory
- * @ptr: pointer to previous malloc'ated block
- * @old_size: byte size of previous block
- * @new_size: byte size of new block
- *
- * Return: pointer to da ol'block nameen.
+ * albady_realloc - memorey reallocator.
+ * @ptr: points to the first block.
+ * @old_size: size of the first block.
+ * @new_size: size if the final block.
+ * Return: an address.
  */
 void *albady_realloc(void *ptr, unsigned int old_size,
 unsigned int new_size)

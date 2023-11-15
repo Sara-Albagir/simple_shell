@@ -5,8 +5,7 @@
  * @info: the parameter struct
  * @buf: the char buffer
  * @p: address of current position in buf
- *
- * Return: 1 if chain delimeter, 0 otherwise
+ * Return: 1 or 0.
  */
 int albady_is_chain(albady_info_t *info, char *buf, size_t *p)
 {
@@ -36,15 +35,13 @@ int albady_is_chain(albady_info_t *info, char *buf, size_t *p)
 }
 
 /**
- * albady_check_chain - checks we should continue
- * chaining based on last status
+ * albady_check_chain - function check if the process to be continue.
  * @info: the parameter struct
  * @buf: the char buffer
  * @p: address of current position in buf
  * @i: starting position in buf
  * @len: length of buf
- *
- * Return: Void
+ * Return: none.
  */
 void albady_check_chain(albady_info_t *info, char *buf,
 size_t *p, size_t i, size_t len)
@@ -72,10 +69,9 @@ size_t *p, size_t i, size_t len)
 }
 
 /**
- * albady_replace_alias - replaces an aliases in the tokenized string
- * @info: the parameter struct
- *
- * Return: 1 if replaced, 0 otherwise
+ * albady_replace_alias - make modifications in the tokenizer.
+ * @info: the parameter struct.
+ * Return: 1 or 0.
  */
 int albady_replace_alias(albady_info_t *info)
 {
@@ -101,10 +97,9 @@ int albady_replace_alias(albady_info_t *info)
 }
 
 /**
- * albady_replace_vars - replaces vars in the tokenized string
- * @info: the parameter struct
- *
- * Return: 1 if replaced, 0 otherwise
+ * albady_replace_vars - make var changes in the tokenizer.
+ * @info: the parameter struct.
+ * Return: 1 or 0.
  */
 int albady_replace_vars(albady_info_t *info)
 {
@@ -144,7 +139,7 @@ int albady_replace_vars(albady_info_t *info)
 /**
  * albady_replace_string - replaces string
  * @old: address of old string
- * @new: new string
+ * @new: the new string
  *
  * Return: 1 if replaced, 0 otherwise
  */

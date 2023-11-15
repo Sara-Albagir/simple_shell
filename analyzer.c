@@ -1,11 +1,10 @@
 #include "albady_shell.h"
 
 /**
- * albady_is_cmd - determines file is an executable comd
- * @info: the albady_info_t struct
- * @path: path to the file
- *
- * Return: 1 if true, 0 otherwise
+ * albady_is_cmd - tells if the file is an ex cmd.
+ * @info: parameter of type struct.
+ * @path: working dir to the file.
+ * Return: 0 or 1.
  */
 int albady_is_cmd(albady_info_t *info, char *path)
 {
@@ -23,12 +22,11 @@ int albady_is_cmd(albady_info_t *info, char *path)
 }
 
 /**
- * albady_dup_chars - duplicates characters
- * @pathstr: the PATH string
- * @start: starting index
- * @stop: stopping index
- *
- * Return: pointer to new buffer
+ * albady_dup_chars - function that dubble a char.
+ * @pathstr: a string.
+ * @start: beginning indx.
+ * @stop: terminating indx.
+ * Return: an address.
  */
 char *albady_dup_chars(char *pathstr, int start, int stop)
 {
@@ -43,12 +41,11 @@ char *albady_dup_chars(char *pathstr, int start, int stop)
 }
 
 /**
- * albady_find_path - finds this cmd in the PATH string
- * @info: the albady_info_t struct
- * @pathstr: the PATH string
- * @cmd: the cmd to find
- *
- * Return: full path of cmd if found or NULL
+ * albady_find_path - search for the working path.
+ * @info: parameter struct.
+ * @pathstr: string working dir.
+ * @cmd: in question cmd.
+ * Return: the path.
  */
 char *albady_find_path(albady_info_t *info, char *pathstr, char *cmd)
 {

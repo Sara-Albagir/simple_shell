@@ -1,11 +1,10 @@
 #include "albady_shell.h"
 
 /**
- * main - entry point
- * @ac: arg count
- * @av: arg vector
- *
- * Return: 0 on success, 1 on error
+ * main - main shell function.
+ * @ac: number of args.
+ * @av: vector of args.
+ * Return: 0 or 1.
  */
 int main(int ac, char **av)
 {

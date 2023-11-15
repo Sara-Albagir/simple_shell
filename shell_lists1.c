@@ -1,10 +1,9 @@
 #include "albady_shell.h"
 
 /**
- * albady_list_len - determines length of linked list
- * @h: pointer to first node
- *
- * Return: size of list
+ * albady_list_len - functionfinds the length f lists.
+ * @h: parameter pointer.
+ * Return: an int.
  */
 size_t albady_list_len(const albady_list_t *h)
 {
@@ -19,10 +18,9 @@ size_t albady_list_len(const albady_list_t *h)
 }
 
 /**
- * albady_list_to_strings - returns an array of strings of the list->str
- * @head: pointer to first node
- *
- * Return: array of strings
+ * albady_list_to_strings - gives a string array.
+ * @head: parameter points to the primary node.
+ * Return: an array.
  */
 char **albady_list_to_strings(albady_list_t *head)
 {
@@ -55,10 +53,9 @@ char **albady_list_to_strings(albady_list_t *head)
 }
 
 /**
- * albady_print_list - prints all elements of an albady_list_t linked list
- * @h: pointer to first node
- *
- * Return: size of list
+ * albady_print_list - a printer to list element function.
+ * @h: parameter points to the primary node.
+ * Return: an int.
  */
 size_t albady_print_list(const albady_list_t *h)
 {
@@ -78,12 +75,11 @@ size_t albady_print_list(const albady_list_t *h)
 }
 
 /**
- * albady_node_starts_with - returns node whose string starts with prefix
- * @node: pointer to list head
- * @prefix: string to match
- * @c: the next character after prefix to match
- *
- * Return: match node or null
+ * albady_node_starts_with - gives a prefix node.
+ * @node: parameter function.
+ * @prefix: in question string.
+ * @c: second char to match.
+ * Return: do the match or return null.
  */
 albady_list_t *albady_node_starts_with(albady_list_t *node,
 char *prefix, char c)
@@ -101,11 +97,10 @@ char *prefix, char c)
 }
 
 /**
- * albady_get_node_index - gets the index of a node
- * @head: pointer to list head
- * @node: pointer to the node
- *
- * Return: index of node or -1
+ * albady_get_node_index - findes the node indx.
+ * @head: parameter points to head list.
+ * @node: points to primary node.
+ * Return: -1 on error.
  */
 ssize_t albady_get_node_index(albady_list_t *head,
 albady_list_t *node)
