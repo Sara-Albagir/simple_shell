@@ -1,12 +1,9 @@
 #include "albady_shell.h"
 
 /**
- * albady_myhistory - displays the history list, one command by line, preceded
- * with line numbers, starting at 0.
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- *
- * Return: Always 0
+ * albady_myhistory - track the history of cmd.
+ * @info: sustain a prototype.
+ * Return: 0.
  */
 int albady_myhistory(albady_info_t *info)
 {
@@ -15,11 +12,10 @@ int albady_myhistory(albady_info_t *info)
 }
 
 /**
- * albady_unset_alias - unsets an alias
- * @info: parameter struct
- * @str: the string alias
- *
- * Return: Always 0 on success, 1 on error
+ * albady_unset_alias - alias modifier.
+ * @info: parameter struct.
+ * @str: the string alias.
+ * Return: 0 or 1.
  */
 int albady_unset_alias(albady_info_t *info, char *str)
 {
@@ -39,11 +35,10 @@ int albady_unset_alias(albady_info_t *info, char *str)
 }
 
 /**
- * albady_set_alias - sets an alias
- * @info: parameter struct
- * @str: the string alias
- *
- * Return: Always 0 on success, 1 on error
+ * albady_set_alias - alias modifier.
+ * @info: parameter struct.
+ * @str: the string alias.
+ * Return: 0 or 1.
  */
 int albady_set_alias(albady_info_t *info, char *str)
 {
@@ -60,10 +55,9 @@ int albady_set_alias(albady_info_t *info, char *str)
 }
 
 /**
- * albady_print_alias - prints an alias string
- * @node: the alias node
- *
- * Return: Always 0 on success, 1 on error
+ * albady_print_alias - a string printer to an alias.
+ * @node: node in question.
+ * Return: 0 or 1.
  */
 int albady_print_alias(albady_list_t *node)
 {
@@ -83,11 +77,9 @@ int albady_print_alias(albady_list_t *node)
 }
 
 /**
- * albady_myalias - mimics the alias builtin (man alias)
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- *
- * Return: Always 0
+ * albady_myalias - similerise alias string.
+ * @info: parameter struct.
+ * Return: 0.
  */
 int albady_myalias(albady_info_t *info)
 {

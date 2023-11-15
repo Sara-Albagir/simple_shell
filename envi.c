@@ -1,10 +1,8 @@
 #include "albady_shell.h"
 /**
- * albady_myenv - prints the current environment
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- *
- * Return: Always 0
+ * albady_myenv - working env printer.
+ * @info: parameter struct.
+ * Return: 0.
  */
 int albady_myenv(albady_info_t *info)
 {
@@ -13,11 +11,10 @@ int albady_myenv(albady_info_t *info)
 }
 
 /**
- * albady_getenv - gets the value of an environment variable
- * @info: Structure containing potential arguments. Used to maintain
+ * albady_getenv - fineds a variable value.
+ * @info: parameter struct.
  * @name: env var name
- *
- * Return: the value
+ * Return: var value.
  */
 char *albady_getenv(albady_info_t *info, const char *name)
 {
@@ -35,12 +32,9 @@ char *albady_getenv(albady_info_t *info, const char *name)
 }
 
 /**
- * albady_mysetenv - Initialize a new environment variable,
- * or modify an existing one
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- *
- * Return: Always 0
+ * albady_mysetenv - start a new env.
+ * @info: parameter struct.
+ * Return: 0.
  */
 int albady_mysetenv(albady_info_t *info)
 {
@@ -55,11 +49,9 @@ int albady_mysetenv(albady_info_t *info)
 }
 
 /**
- * albady_myunsetenv - Remove an environment variable
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- *
- * Return: Always 0
+ * albady_myunsetenv - delete the variable.
+ * @info: parameter struct.
+ * Return: 0.
  */
 int albady_myunsetenv(albady_info_t *info)
 {
@@ -77,11 +69,9 @@ int albady_myunsetenv(albady_info_t *info)
 }
 
 /**
- * albady_populate_env_list - populates env linked list
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- *
- * Return: Always 0
+ * albady_populate_env_list - modify linked list.
+ * @info: a parameter struct.
+ * Return: 0.
  */
 int albady_populate_env_list(albady_info_t *info)
 {
